@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/cardinstances', 'cardInstanceController@getLayoutCardInstances')->name('cardinstances');

@@ -14,41 +14,27 @@ class cardInstanceController extends Controller
         $thisLayoutCardInstances = $thisCardInstance->getLayoutCardInstances($thisLayoutName);
         $thisCardInstanceId = $thisLayoutCardInstances[0]->id;
         $allCardInstances = array();
-        $thisCardInstanceStyle = "";
+        $thisCardInstanceParameter = array();
         $thisCardInstanceText = "";
         $thisCardInstanceComponent = $thisLayoutCardInstances[0]->card_component;
         $lastCard = count($thisLayoutCardInstances)-1;
+        $instancesAdded = 0;
         for($i =0; $i< count($thisLayoutCardInstances); $i++){
             if($thisLayoutCardInstances[$i]->id != $thisCardInstanceId){
-                $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_styling'=>$thisCardInstanceStyle, 'message'=>$thisCardInstanceText);
-                $thisCardInstanceStyle = "";
+                $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$thisCardInstanceParameter);
+                $thisCardInstanceParameter = array();
                 $thisCardInstanceText = "";
                 $thisCardInstanceComponent = $thisLayoutCardInstances[$i]->card_component;
                 array_push($allCardInstances, $newCardInstance);
+                $instancesAdded++;
                 $thisCardInstanceId = $thisLayoutCardInstances[$i]->id;
-                if(strcmp($thisLayoutCardInstances[$i]->parameter_key,'message')==0){
-                    $thisCardInstanceText = $thisLayoutCardInstances[$i]->parameter_value;
-                }else{
-                    $thisKey = $thisLayoutCardInstances[$i]->parameter_key;
-                    $thisValue = $thisLayoutCardInstances[$i]->parameter_value;
-                    $thisCardInstanceStyle = $thisCardInstanceStyle.' '.$thisKey.':'.$thisValue.' ';
-                }
+                $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
             }else{
-                if(strcmp($thisLayoutCardInstances[$i]->parameter_key,'message')==0){
-                    $thisCardInstanceText = $thisLayoutCardInstances[$i]->parameter_value;
-                }else{
-                    $thisKey = $thisLayoutCardInstances[$i]->parameter_key;
-                    $thisValue = $thisLayoutCardInstances[$i]->parameter_value;
-                    $thisCardInstanceStyle = $thisCardInstanceStyle.' '.$thisKey.':'.$thisValue.' ';
-                }
+                $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
             }
         }
-        if(strcmp($thisLayoutCardInstances[$lastCard]->parameter_key,'message')==0){
-            $thisCardInstanceText = $thisLayoutCardInstances[$lastCard]->parameter_value;
-        }else{
-            $thisCardInstanceStyle = $thisCardInstanceStyle.$thisLayoutCardInstances[$lastCard]->parameter_key.':'.$thisLayoutCardInstances[$lastCard]->parameter_value.' ';
-        }
-        $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_styling'=>$thisCardInstanceStyle, 'message'=>$thisCardInstanceText);
+        $thisCardInstanceParameter[$thisLayoutCardInstances[$i-1]->parameter_key]=$thisLayoutCardInstances[$i-1]->parameter_value;
+        $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$thisCardInstanceParameter);
         array_push($allCardInstances, $newCardInstance);
 
 

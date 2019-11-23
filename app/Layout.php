@@ -4,10 +4,35 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+
 class Layout extends Model
 {
     public function CardInstances()
     {
         return $this->hasMany(CardInstances::class);
+    }
+
+    public function createBlankLayout($layoutName, $layoutHeight, $layoutWidth, $blankLayoutBackground)
+    {
+        $thisNewLayout = new Layout;
+        $thisNewLayout->menu_label = $layoutName;
+        $thisNewLayout->height = $layoutHeight;
+        $thisNewLayout->width = $layoutWidth;
+        $thisNewLayout->save();
+        $totalNumberOfCells = $layoutHeight * $layoutWidth;
+        $row = 1;
+        $column = 1;
+        for ($x = 0; $x < $totalNumberOfCells; $x++) {
+            $blankLayoutStyle = "grid-area:" . $row . " / " . $column . " / " . $row . " / " . ($column + 1) . ";" . $blankLayoutBackground;
+            $newParams = [['key'=>'style', 'value'=>$blankLayoutStyle]];
+            $thisCardInstance = new CardInstances;
+            $thisCardInstance->createCardInstance($thisNewLayout->id, $newParams);
+            $column++;
+            if($column==$layoutWidth){
+                $column=1;
+                $row++;
+            }
+        }
     }
 }

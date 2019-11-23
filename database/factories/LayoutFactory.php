@@ -7,6 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Layout::class, function (Faker $faker) {
     return [
-        'menu_label'=>'Front_Page'
+        'menu_label'=>'Front_Page',
+        'height'=>3,
+        'width'=>5
     ];
 });

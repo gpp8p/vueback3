@@ -16,6 +16,10 @@ class CreateCardInstancesTable extends Migration
         Schema::create('card_instances', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->integer('col');
+            $table->integer('row');
+            $table->integer('height');
+            $table->integer('width');
             $table->unsignedBigInteger('layout_id')->default(0);
             $table->unsignedBigInteger('view_type_id')->default(0);
             $table->string('card_component', 32);

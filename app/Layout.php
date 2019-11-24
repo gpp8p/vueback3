@@ -27,7 +27,7 @@ class Layout extends Model
             $blankLayoutStyle = "grid-area:" . $row . " / " . $column . " / " . $row . " / " . ($column + 1) . ";" . $blankLayoutBackground;
             $newParams = [['key'=>'style', 'value'=>$blankLayoutStyle]];
             $thisCardInstance = new CardInstances;
-            $thisCardInstance->createCardInstance($thisNewLayout->id, $newParams);
+            $thisCardInstance->createCardInstance($thisNewLayout->id, $newParams, $row, $column, 1,1);
             $column++;
             if($column>$layoutWidth){
                 $column=1;

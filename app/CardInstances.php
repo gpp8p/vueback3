@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\ViewType;
 
 class CardInstances extends Model
 {
@@ -51,12 +52,12 @@ class CardInstances extends Model
 
         $thisCardInstance = new CardInstances;
         $thisCardInstance->layout_id = $layoutId;
-        $thisCardInstance->view_type_id = App\ViewType::where('view_type_label', 'Web Browser')->first()->id;
+        $thisCardInstance->view_type_id = ViewType::where('view_type_label', 'Web Browser')->first()->id;
         $thisCardInstance->card_component = "simpleCard";
         $thisCardInstance->save();
         foreach($cardParams as $thisParam){
             $thisInstanceParams = new InstanceParams;
-            $thisInstanceParams->createInstanceParam();
+            $thisInstanceParams->createInstanceParam($thisParam['key'], $thisParam['value'], $thisCardInstance->id);
         }
 
     }

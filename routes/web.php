@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/cardinstances', 'cardInstanceController@getLayoutCardInstances')->name('cardinstances');
+Route::get('/blankLayout', 'LayoutController@createBlankLayout')->name('blanklayout');
+Route::get('/getLayout', 'cardInstanceController@getLayoutById')->name('getLayout');
 header('Access-Control-Allow-Origin:  *');
 header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');

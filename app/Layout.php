@@ -29,10 +29,11 @@ class Layout extends Model
             $thisCardInstance = new CardInstances;
             $thisCardInstance->createCardInstance($thisNewLayout->id, $newParams);
             $column++;
-            if($column==$layoutWidth){
+            if($column>$layoutWidth){
                 $column=1;
                 $row++;
             }
         }
+        return $thisNewLayout->id;
     }
 }

@@ -34,7 +34,7 @@ class CardInstances extends Model
     }
 
     public function getLayoutCardInstancesById($layoutId){
-        $query = "select instance.id,parameter_key, parameter_value, card_component, ".
+        $query = "select instance.id,parameter_key, parameter_value, card_component, isCss, ".
             "instance.col, instance.row, instance.height, instance.width ".
             "from card_instances as instance, instance_params as params, layouts as layouts ".
             "where params.card_instance_id = instance.id ".

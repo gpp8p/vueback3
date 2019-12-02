@@ -53,35 +53,47 @@ class cardInstanceController extends Controller
 //        $gridCss=$this->computeGridCss($thisLayoutCardInstances[0]->row, $thisLayoutCardInstances[0]->col, $thisLayoutCardInstances[0]->height, $thisLayoutCardInstances[0]->height);
         $thisCardInstanceText = "";
         $thisCardInstanceComponent = $thisLayoutCardInstances[0]->card_component;
+        $thisRow = $thisLayoutCardInstances[0]->row;
+        $thisCol = $thisLayoutCardInstances[0]->col;
+        $thisHeight = $thisLayoutCardInstances[0]->height;
+        $thisWidth = $thisLayoutCardInstances[0]->width;
         $lastCard = count($thisLayoutCardInstances)-1;
         $instancesAdded = 0;
         for($i =0; $i< count($thisLayoutCardInstances); $i++){
             if($thisLayoutCardInstances[$i]->id != $thisCardInstanceId){
-                if(array_key_exists ( 'style' ,$thisCardInstanceParameter )){
-                    $gridCss=$this->computeGridCss($thisLayoutCardInstances[$i]->row, $thisLayoutCardInstances[$i]->col, $thisLayoutCardInstances[$i]->height, $thisLayoutCardInstances[$i]->width);
+                $allCssParams = $this->computeGridCss($thisRow, $thisCol, $thisHeight, $thisWidth).";";
+                foreach($thisCardInstanceParameter as $index => $value){
+                    $allCssParams = $allCssParams.$index.':'.$value.';';
                 }
-                $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$thisCardInstanceParameter);
-                $gridCss=$this->computeGridCss($thisLayoutCardInstances[$i]->row, $thisLayoutCardInstances[$i]->col, $thisLayoutCardInstances[$i]->height, $thisLayoutCardInstances[$i]->width);
+                $cardCssParameters['style']=$allCssParams;
+                $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters);
+                array_push($allCardInstances, $newCardInstance);
+                $thisRow = $thisLayoutCardInstances[$i]->row;
+                $thisCol = $thisLayoutCardInstances[$i]->col;
+                $thisHeight = $thisLayoutCardInstances[$i]->height;
+                $thisWidth = $thisLayoutCardInstances[$i]->width;
+
                 $thisCardInstanceParameter = array();
                 $thisCardInstanceText = "";
                 $thisCardInstanceComponent = $thisLayoutCardInstances[$i]->card_component;
-                array_push($allCardInstances, $newCardInstance);
                 $instancesAdded++;
                 $thisCardInstanceId = $thisLayoutCardInstances[$i]->id;
-                $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
-            }else{
-                if(!array_key_exists ( 'style' ,$thisCardInstanceParameter )){
-                    $gridCss=$this->computeGridCss($thisLayoutCardInstances[$i]->row, $thisLayoutCardInstances[$i]->col, $thisLayoutCardInstances[$i]->height, $thisLayoutCardInstances[$i]->width);
+                if($thisLayoutCardInstances[$i]->isCss){
+                    $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
                 }
-                $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
-
+            }else{
+                if($thisLayoutCardInstances[$i]->isCss){
+                    $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
+                }
             }
         }
-        $thisCardInstanceParameter[$thisLayoutCardInstances[$i-1]->parameter_key]=$thisLayoutCardInstances[$i-1]->parameter_value;
-        $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$thisCardInstanceParameter);
+        $allCssParams = $this->computeGridCss($thisRow, $thisCol, $thisHeight, $thisWidth).";";
+        foreach($thisCardInstanceParameter as $index => $value){
+            $allCssParams = $allCssParams.$index.':'.$value.';';
+        }
+        $cardCssParameters['style']=$allCssParams;
+        $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters);
         array_push($allCardInstances, $newCardInstance);
-
-
 
         return json_encode($allCardInstances);
     }
@@ -98,7 +110,7 @@ class cardInstanceController extends Controller
             $endRow = $row+$height;
         }
         $endCol=$startColumn+$width;
-        $thisCss = "grid-area:".$startRow."/".$startColumn."/".$endRow."/".$endCol.";";
+        $thisCss = "grid-area:".$startRow."/".$startColumn."/".$endRow."/".$endCol;
         return $thisCss;
 
     }

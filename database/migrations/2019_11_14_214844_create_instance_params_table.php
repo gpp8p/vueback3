@@ -19,7 +19,7 @@ class CreateInstanceParamsTable extends Migration
             $table->string('parameter_key', 32);
             $table->string('parameter_value',512);
             $table->unsignedBigInteger("card_instance_id");
-
+            $table->boolean('isCss')->default(false);
             $table->foreign('card_instance_id')->references('id')->on('card_instance');
         });
     }

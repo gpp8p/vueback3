@@ -34,7 +34,9 @@ class CardInstances extends Model
     }
 
     public function getLayoutCardInstancesById($layoutId){
-        $query = "select instance.id,parameter_key, parameter_value, card_component from card_instances as instance, instance_params as params, layouts as layouts ".
+        $query = "select instance.id,parameter_key, parameter_value, card_component, ".
+            "instance.col, instance.row, instance.height, instance.width ".
+            "from card_instances as instance, instance_params as params, layouts as layouts ".
             "where params.card_instance_id = instance.id ".
             "and instance.layout_id = layouts.id ".
             "and layouts.id = ? ".
@@ -59,12 +61,16 @@ class CardInstances extends Model
         $thisCardInstance->height = $height;
         $thisCardInstance->width = $width;
         $thisCardInstance->save();
+        $newCardInstanceId = $thisCardInstance->id;
         foreach($cardParams as $thisParam){
             $thisInstanceParams = new InstanceParams;
-            $thisInstanceParams->createInstanceParam($thisParam['key'], $thisParam['value'], $thisCardInstance->id);
+            $thisInstanceParams->createInstanceParam($thisParam[0], $thisParam[1], $thisCardInstance->id, $thisParam[2]);
         }
+        return $newCardInstanceId;
 
     }
+
+
 
 
 }

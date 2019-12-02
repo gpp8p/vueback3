@@ -13,9 +13,10 @@ class LayoutController extends Controller
         $layoutName = $inData['name'];
         $height = $inData['height'];
         $width = $inData['width'];
-        $background = "background-color: ".$inData['background'].";";
+        $background = $inData['background'];
+        $cardParams = [['background-color', $background, true],['color','blue', true]];
         $thisLayout = new Layout;
-        $newLayoutId = $thisLayout->createBlankLayout($layoutName, $height, $width, $background);
+        $newLayoutId = $thisLayout->createBlankLayout($layoutName, $height, $width, $cardParams);
         $thisCardInstance = new CardInstances;
         $newCardInstances = $thisCardInstance->getLayoutCardInstancesById($newLayoutId);
         return json_encode($newCardInstances);

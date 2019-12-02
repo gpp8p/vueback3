@@ -13,7 +13,7 @@ class Layout extends Model
         return $this->hasMany(CardInstances::class);
     }
 
-    public function createBlankLayout($layoutName, $layoutHeight, $layoutWidth, $blankLayoutBackground)
+    public function createBlankLayout($layoutName, $layoutHeight, $layoutWidth, $cardParams)
     {
         $thisNewLayout = new Layout;
         $thisNewLayout->menu_label = $layoutName;
@@ -24,10 +24,18 @@ class Layout extends Model
         $row = 1;
         $column = 1;
         for ($x = 0; $x < $totalNumberOfCells; $x++) {
-            $blankLayoutStyle = "grid-area:" . $row . " / " . $column . " / " . $row . " / " . ($column + 1) . ";" . $blankLayoutBackground;
-            $newParams = [['key'=>'style', 'value'=>$blankLayoutStyle]];
+//            $blankLayoutStyle = "grid-area:" . $row . " / " . $column . " / " . $row . " / " . ($column + 1) . ";" . $blankLayoutBackground;
+//            $blankLayoutStyle = $blankLayoutBackground;
+//            $fontColorCss = "color: blue;";
+//            $newParams = [['key'=>'style', 'value'=>$blankLayoutStyle]];
+//            $newParams = [['style',$blankLayoutStyle],[]]
             $thisCardInstance = new CardInstances;
-            $thisCardInstance->createCardInstance($thisNewLayout->id, $newParams, $row, $column, 1,1);
+            $thisCardInstance->createCardInstance($thisNewLayout->id, $cardParams, $row, $column, 1,1);
+//           $fontColorCss = "color: blue;";
+//            $newParams = [['key'=>'style', 'value'=>$fontColorCss]];
+//            $thisCardInstance = new CardInstances;
+//            $thisCardInstance->createCardInstance($thisNewLayout->id, $cardParams, $row, $column, 1,1);
+
             $column++;
             if($column>$layoutWidth){
                 $column=1;

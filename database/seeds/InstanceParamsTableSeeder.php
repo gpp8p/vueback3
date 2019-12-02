@@ -27,11 +27,13 @@ class InstanceParamsTableSeeder extends Seeder
             $newParam->card_instance_id = $instanceId;
             $newParam->parameter_key='style';
             $newParam->parameter_value=$styles[$instanceId-1];
+            $newParam->isCss=true;
             $newParam->save();
             $newParam = new InstanceParams;
             $newParam->card_instance_id = $instanceId;
             $newParam->parameter_key='message';
             $newParam->parameter_value=$faker->sentence($nbWords = 6, $variableNbWords = true);
+            $newParam->isCss=false;
             $newParam->save();
          }
     }

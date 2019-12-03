@@ -66,7 +66,8 @@ class cardInstanceController extends Controller
                     $allCssParams = $allCssParams.$index.':'.$value.';';
                 }
                 $cardCssParameters['style']=$allCssParams;
-                $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters);
+                $cardPos = array($thisRow,$thisCol,$thisHeight,$thisWidth);
+                $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters, 'card_position'=>$cardPos);
                 array_push($allCardInstances, $newCardInstance);
                 $thisRow = $thisLayoutCardInstances[$i]->row;
                 $thisCol = $thisLayoutCardInstances[$i]->col;
@@ -92,7 +93,7 @@ class cardInstanceController extends Controller
             $allCssParams = $allCssParams.$index.':'.$value.';';
         }
         $cardCssParameters['style']=$allCssParams;
-        $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters);
+        $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters, 'card_parameters'=>$cardCssParameters, 'card_position'=>$cardPos);
         array_push($allCardInstances, $newCardInstance);
 
         return json_encode($allCardInstances);

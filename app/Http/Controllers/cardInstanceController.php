@@ -99,6 +99,12 @@ class cardInstanceController extends Controller
         return json_encode($allCardInstances);
     }
 
+    public function saveCard($request){
+        $inData =  $request->all();
+        $layoutId = $inData['layoutId'];
+        return "ok";
+    }
+
     private function computeGridCss($row, $col, $height, $width){
         $startRow = $row;
         $startColumn = $col;
@@ -115,6 +121,8 @@ class cardInstanceController extends Controller
         return $thisCss;
 
     }
+
+
 
 
 }

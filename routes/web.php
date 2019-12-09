@@ -19,6 +19,8 @@ Route::get('/cardinstances', 'cardInstanceController@getLayoutCardInstances')->n
 Route::get('/blankLayout', 'LayoutController@createBlankLayout')->name('blanklayout');
 Route::get('/getLayout', 'cardInstanceController@getLayoutById')->name('getLayout');
 Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');
+Route::get('/csrfTest', 'cardInstanceController@getCsrf')->name('csrfTest');
+Route::get('/serveTest', 'cardInstanceController@serveTest')->name('serveTest');
 header('Access-Control-Allow-Origin:  *');
 header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');

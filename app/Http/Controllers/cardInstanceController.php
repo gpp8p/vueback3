@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CardInstances;
+use Illuminate\Support\Facades\DB;
 
 class cardInstanceController extends Controller
 {
@@ -99,10 +100,32 @@ class cardInstanceController extends Controller
         return json_encode($allCardInstances);
     }
 
-    public function saveCard($request){
+    public function saveCard(Request $request){
         $inData =  $request->all();
         $layoutId = $inData['layoutId'];
-        return "ok";
+        $cardTitle = $inData['cardTitle'];
+        $topLeftRow = $inData['topLeftRow'];
+        $topLeftCol = $inData['topLeftCol'];
+        $bottomRightRow = $inData['bottomRightRow'];
+        $bottomRightCol = $inData['bottomRightCol'];
+
+        $query = "select id from card_instances  where col >= ? and row >= ? and col <= ? and row <= ? and layout_id = ?";
+        $retrievedCardInstances  =  DB::select($query, [$topLeftCol, $topLeftRow, $bottomRightCol, $bottomRightRow, $layoutId]);
+        $retrievedIds = array();
+        foreach($retrievedCardInstances as $thisRetrievedId){
+            array_push($retrievedIds, $thisRetrievedId->id);
+        }
+
+
+        return $retrievedIds;
+    }
+
+    public function getCsrf(){
+        return csrf_token();
+    }
+
+    public function serveTest(){
+        return view('serveCrsfTest');
     }
 
     private function computeGridCss($row, $col, $height, $width){

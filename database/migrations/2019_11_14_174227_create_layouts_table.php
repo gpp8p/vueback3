@@ -17,6 +17,7 @@ class CreateLayoutsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('menu_label',32);
+            $table->string('description', 255);
             $table->integer('height');
             $table->integer('width');
         });

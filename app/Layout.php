@@ -13,12 +13,13 @@ class Layout extends Model
         return $this->hasMany(CardInstances::class);
     }
 
-    public function createBlankLayout($layoutName, $layoutHeight, $layoutWidth, $cardParams)
+    public function createBlankLayout($layoutName, $layoutHeight, $layoutWidth, $cardParams, $layoutDescription)
     {
         $thisNewLayout = new Layout;
         $thisNewLayout->menu_label = $layoutName;
         $thisNewLayout->height = $layoutHeight;
         $thisNewLayout->width = $layoutWidth;
+        $thisNewLayout->description = $layoutDescription;
         $thisNewLayout->save();
         $totalNumberOfCells = $layoutHeight * $layoutWidth;
         $row = 1;

@@ -30,7 +30,7 @@ class Layout extends Model
 //            $newParams = [['key'=>'style', 'value'=>$blankLayoutStyle]];
 //            $newParams = [['style',$blankLayoutStyle],[]]
             $thisCardInstance = new CardInstances;
-            $thisCardInstance->createCardInstance($thisNewLayout->id, $cardParams, $row, $column, 1,1);
+            $thisCardInstance->createCardInstance($thisNewLayout->id, $cardParams, $row, $column, 1,1, 'simpleCard');
 //           $fontColorCss = "color: blue;";
 //            $newParams = [['key'=>'style', 'value'=>$fontColorCss]];
 //            $thisCardInstance = new CardInstances;

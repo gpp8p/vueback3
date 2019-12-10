@@ -50,12 +50,12 @@ class CardInstances extends Model
         }
     }
 
-    public function createCardInstance($layoutId, $cardParams, $row, $column, $height, $width){
+    public function createCardInstance($layoutId, $cardParams, $row, $column, $height, $width, $cardType){
 
         $thisCardInstance = new CardInstances;
         $thisCardInstance->layout_id = $layoutId;
         $thisCardInstance->view_type_id = ViewType::where('view_type_label', 'Web Browser')->first()->id;
-        $thisCardInstance->card_component = "simpleCard";
+        $thisCardInstance->card_component = $cardType;
         $thisCardInstance->row = $row;
         $thisCardInstance->col = $column;
         $thisCardInstance->height = $height;

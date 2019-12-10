@@ -145,6 +145,18 @@ class cardInstanceController extends Controller
 
     }
 
+    private function computeCssFromCoordinates($topLeftRow, $topLeftCol, $bottomRightRow, $bottomRightCol){
+        $thisHeight=0;
+        $thisWidth=0;
+        if($topLeftRow = $bottomRightRow){
+            $thisHeight = 1;
+        }else{
+            $thisHeight = $bottomRightRow-$topLeftRow;
+        }
+        $thisWidth = $bottomRightCol-$topLeftCol;
+        return $this->computeGridCss($topLeftRow, $topLeftCol, $thisHeight, $thisWidth);
+    }
+
 
 
 

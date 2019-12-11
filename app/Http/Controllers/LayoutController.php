@@ -25,9 +25,11 @@ class LayoutController extends Controller
 
     public function getLayoutList(Request $request){
         $returnList = array();
-        foreach(App/Layout::all() as $thisLayout){
-            array_push($returnList, [$thisLayout->id,$thisLayout->menu_label,$thisLayout->description,$thisLayout->height, $thisLayout-width]);
-        }
-        return json_encode($returnList);
+        $layoutInstance = new Layout;
+        $allLayouts = $layoutInstance->all();
+//        foreach($allLayouts as $thisLayout){
+//            array_push($returnList, [$thisLayout->id,$thisLayout->menu_label,$thisLayout->description,$thisLayout->height, $thisLayout->width]);
+//        }
+        return json_encode($allLayouts);
     }
 }

@@ -12,6 +12,6 @@ class CardInstancesTableSeeder extends Seeder
      */
     public function run()
     {
-//        factory('App\CardInstances', 4)->create();
+        factory('App\CardInstances', 4)->create();
     }
 }

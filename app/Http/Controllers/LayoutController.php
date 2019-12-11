@@ -22,4 +22,12 @@ class LayoutController extends Controller
         $newCardInstances = $thisCardInstance->getLayoutCardInstancesById($newLayoutId);
         return json_encode($newCardInstances);
     }
+
+    public function getLayoutList(Request $request){
+        $returnList = array();
+        foreach(App/Layout::all() as $thisLayout){
+            array_push($returnList, [$thisLayout->id,$thisLayout->menu_label,$thisLayout->description,$thisLayout->height, $thisLayout-width]);
+        }
+        return json_encode($returnList);
+    }
 }

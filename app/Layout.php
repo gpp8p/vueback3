@@ -45,4 +45,8 @@ class Layout extends Model
         }
         return $thisNewLayout->id;
     }
+
+    public function getLayoutList(){
+        return App/Layout::all();
+    }
 }

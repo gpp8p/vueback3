@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CardInstances;
+use App\layout;
 use Illuminate\Support\Facades\DB;
 
 class cardInstanceController extends Controller
@@ -46,6 +47,12 @@ class cardInstanceController extends Controller
     public function getLayoutById(Request $request){
         $inData =  $request->all();
         $layoutId = $inData['layoutId'];
+        $layoutInstance = new Layout;
+        $layoutInfo = $layoutInstance->where('id', $layoutId)->get();
+        $thisLayoutDescription = $layoutInfo[0]->description;
+        $thisLayoutWidth = $layoutInfo[0]->width;
+        $thisLayoutHeight = $layoutInfo[0]->height;
+        $thisLayoutLabel = $layoutInfo[0]->menu_label;
         $thisCardInstance = new CardInstances;
         $thisLayoutCardInstances = $thisCardInstance->getLayoutCardInstancesById($layoutId);
         $thisCardInstanceId = $thisLayoutCardInstances[0]->id;
@@ -96,8 +103,9 @@ class cardInstanceController extends Controller
         $cardCssParameters['style']=$allCssParams;
         $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters, 'card_parameters'=>$cardCssParameters, 'card_position'=>$cardPos);
         array_push($allCardInstances, $newCardInstance);
-
-        return json_encode($allCardInstances);
+        $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight);
+        $returnData = array('cards'=>$allCardInstances, 'layout'=>$layoutProperties);
+        return json_encode($returnData);
     }
 
     public function saveCard(Request $request){

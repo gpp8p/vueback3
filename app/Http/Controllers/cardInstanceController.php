@@ -101,6 +101,7 @@ class cardInstanceController extends Controller
             $allCssParams = $allCssParams.$index.':'.$value.';';
         }
         $cardCssParameters['style']=$allCssParams;
+        $cardPos = array($thisRow,$thisCol,$thisHeight,$thisWidth);
         $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters, 'card_parameters'=>$cardCssParameters, 'card_position'=>$cardPos);
         array_push($allCardInstances, $newCardInstance);
         $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight);

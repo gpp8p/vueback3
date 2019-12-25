@@ -24,6 +24,21 @@ class LayoutController extends Controller
         return json_encode($newCardInstances);
     }
 
+    public function createNewLayout(Request $request){
+        $inData =  $request->all();
+        $layoutName = $inData['name'];
+        $height = $inData['height'];
+        $width = $inData['width'];
+        $testLayoutDescription = $width = $inData['description'];
+        $background = '#DBAA6E';
+        $cardParams = [['background-color', $background, true],['color','blue', true]];
+        $thisLayout = new Layout;
+        $thisCardInstance = new CardInstances;
+        $newLayoutId = $thisLayout->createBlankLayout($layoutName, $height, $width, $cardParams, $testLayoutDescription);
+        $newCardInstances = $thisCardInstance->getLayoutCardInstancesById($newLayoutId);
+        return json_encode($newCardInstances);
+    }
+
     public function getLayoutList(Request $request){
         $returnList = array();
         $layoutInstance = new Layout;

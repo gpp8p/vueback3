@@ -67,9 +67,11 @@ class CardInstances extends Model
             'row'=>$row,
             'height'=>$height,
             'width'=>$width,
+            'layout_id'=>$layoutId,
             'card_component'=>$cardType,
             'view_type_id'=>$viewType,
             'card_component'=>$cardType,
+
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -80,7 +82,7 @@ class CardInstances extends Model
 //        $newCardInstanceId = $thisCardInstance->id;
         foreach($cardParams as $thisParam){
             $thisInstanceParams = new InstanceParams;
-            $thisInstanceParams->createInstanceParam($thisParam[0], $thisParam[1], $thisCardInstance->id, $thisParam[2]);
+            $thisInstanceParams->createInstanceParam($thisParam[0], $thisParam[1],$newCardInstanceId, $thisParam[2]);
         }
         return $newCardInstanceId;
 

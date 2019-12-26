@@ -55,7 +55,7 @@ class Layout extends Model
                 $row++;
             }
         }
-        return $thisNewLayout->id;
+        return $newLayoutId;
     }
 
     public function getLayoutList(){

@@ -15,7 +15,7 @@ class InstanceParams extends Model
 //        $newParam->isCss=$isCss;
 //        $newParam->save();
 
-        $newCardInstanceId =DB::table('card_instances')->insertGetId([
+        $newCardInstanceId =DB::table('instance_params')->insertGetId([
             'card_instance_id'=>$instanceId,
             'parameter_value'=>$value,
             'parameter_key'=>$key,

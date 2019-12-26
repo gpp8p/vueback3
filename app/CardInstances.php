@@ -52,16 +52,32 @@ class CardInstances extends Model
 
     public function createCardInstance($layoutId, $cardParams, $row, $column, $height, $width, $cardType){
 
-        $thisCardInstance = new CardInstances;
-        $thisCardInstance->layout_id = $layoutId;
-        $thisCardInstance->view_type_id = ViewType::where('view_type_label', 'Web Browser')->first()->id;
-        $thisCardInstance->card_component = $cardType;
-        $thisCardInstance->row = $row;
-        $thisCardInstance->col = $column;
-        $thisCardInstance->height = $height;
-        $thisCardInstance->width = $width;
-        $thisCardInstance->save();
-        $newCardInstanceId = $thisCardInstance->id;
+//        $thisCardInstance = new CardInstances;
+//        $thisCardInstance->layout_id = $layoutId;
+//        $thisCardInstance->view_type_id = ViewType::where('view_type_label', 'Web Browser')->first()->id;
+//        $thisCardInstance->card_component = $cardType;
+//        $thisCardInstance->row = $row;
+//        $thisCardInstance->col = $column;
+//        $thisCardInstance->height = $height;
+//        $thisCardInstance->width = $width;
+
+        $viewType = ViewType::where('view_type_label', 'Web Browser')->first()->id;
+        $newCardInstanceId =DB::table('card_instances')->insertGetId([
+            'col'=>$column,
+            'row'=>$row,
+            'height'=>$height,
+            'width'=>$width,
+            'card_component'=>$cardType,
+            'view_type_id'=>$viewType,
+            'card_component'=>$cardType,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+
+
+
+//        $thisCardInstance->save();
+//        $newCardInstanceId = $thisCardInstance->id;
         foreach($cardParams as $thisParam){
             $thisInstanceParams = new InstanceParams;
             $thisInstanceParams->createInstanceParam($thisParam[0], $thisParam[1], $thisCardInstance->id, $thisParam[2]);

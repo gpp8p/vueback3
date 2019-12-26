@@ -29,7 +29,7 @@ class LayoutController extends Controller
         $layoutName = $inData['name'];
         $height = $inData['height'];
         $width = $inData['width'];
-        $testLayoutDescription = $width = $inData['description'];
+        $testLayoutDescription = $inData['description'];
         $background = '#DBAA6E';
         $cardParams = [['background-color', $background, true],['color','blue', true]];
         $thisLayout = new Layout;

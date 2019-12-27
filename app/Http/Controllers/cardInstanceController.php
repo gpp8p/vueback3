@@ -118,15 +118,16 @@ class cardInstanceController extends Controller
         $bottomRightRow = $inData['bottomRightRow'];
         $bottomRightCol = $inData['bottomRightCol'];
 
-        $query = "select id from card_instances  where col >= ? and row >= ? and col <= ? and row <= ? and layout_id = ?";
-        $retrievedCardInstances  =  DB::select($query, [$topLeftCol, $topLeftRow, $bottomRightCol, $bottomRightRow, $layoutId]);
+        $query1 = "select id from card_instances  where col >= ? and row >= ? and col <= ? and row <= ? and layout_id = ?";
+        $retrievedCardInstances  =  DB::select($query1, [$topLeftCol, $topLeftRow, $bottomRightCol, $bottomRightRow, $layoutId]);
         $retrievedIds = array();
         foreach($retrievedCardInstances as $thisRetrievedId){
             array_push($retrievedIds, $thisRetrievedId->id);
         }
+//        $query = "delete from instance params where card_instance_id in ?";
 
 
-        return $retrievedIds;
+        return $layoutId;
     }
 
     public function getCsrf(){

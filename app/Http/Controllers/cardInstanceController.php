@@ -113,6 +113,7 @@ class cardInstanceController extends Controller
         $inData =  $request->all();
         $layoutId = $inData['layoutId'];
         $cardTitle = $inData['cardTitle'];
+        $cardType = $inData['cardType'];
         $topLeftRow = $inData['topLeftRow'];
         $topLeftCol = $inData['topLeftCol'];
         $bottomRightRow = $inData['bottomRightRow'];
@@ -121,9 +122,12 @@ class cardInstanceController extends Controller
         $query1 = "select id from card_instances  where col >= ? and row >= ? and col <= ? and row <= ? and layout_id = ?";
         $retrievedCardInstances  =  DB::select($query1, [$topLeftCol, $topLeftRow, $bottomRightCol, $bottomRightRow, $layoutId]);
         $retrievedIds = array();
+        $blanksToDelete = '';
         foreach($retrievedCardInstances as $thisRetrievedId){
             array_push($retrievedIds, $thisRetrievedId->id);
+            $blanksToDelete = $blanksToDelete."'".$thisRetrievedId->id."',";
         }
+        $blanksToDelete = substr($blanksToDelete, 0, strlen($blanksToDelete)-1);
 //        $query = "delete from instance params where card_instance_id in ?";
 
 

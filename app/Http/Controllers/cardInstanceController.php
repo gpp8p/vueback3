@@ -128,7 +128,18 @@ class cardInstanceController extends Controller
             $blanksToDelete = $blanksToDelete."'".$thisRetrievedId->id."',";
         }
         $blanksToDelete = substr($blanksToDelete, 0, strlen($blanksToDelete)-1);
-//        $query = "delete from instance params where card_instance_id in ?";
+        $query2 = "delete from instance_params where card_instance_id in (".$blanksToDelete.")";
+        $deletedParams = DB::select($query2);
+        $query3 = "delete from card_instances where id in(".$blanksToDelete.")";
+        $deletedCards = DB::select($query3);
+
+        $background = '#DBAA6E';
+        $cardParams = [['background-color', $background, true],['color','blue', true]];
+        $thisCardInstance = new CardInstances();
+        $cardWidth = ($bottomRightCol-$topLeftCol)+1;
+        $cardHeight = ($bottomRightRow-$topLeftRow)+1;
+        $thisCardInstance->createCardInstance($layoutId, $cardParams, $topLeftRow,$topLeftCol, $cardHeight, $cardWidth,$cardType);
+
 
 
         return $layoutId;

@@ -36,7 +36,7 @@ class LayoutController extends Controller
         $thisCardInstance = new CardInstances;
         $newLayoutId = $thisLayout->createBlankLayout($layoutName, $height, $width, $cardParams, $testLayoutDescription);
         $newCardInstances = $thisCardInstance->getLayoutCardInstancesById($newLayoutId);
-        return json_encode($newLayoutId);
+        return json_encode([$newLayoutId]);
     }
 
     public function getLayoutList(Request $request){

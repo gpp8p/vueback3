@@ -133,7 +133,7 @@ class cardInstanceController extends Controller
         $query3 = "delete from card_instances where id in(".$blanksToDelete.")";
         $deletedCards = DB::select($query3);
 
-        $background = '#DBAA6E';
+        $background = '#7FDBFF';
         $cardParams = [['background-color', $background, true],['color','blue', true]];
         $thisCardInstance = new CardInstances();
         $cardWidth = ($bottomRightCol-$topLeftCol)+1;

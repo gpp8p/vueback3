@@ -39,6 +39,18 @@ class LayoutController extends Controller
         return json_encode([$newLayoutId]);
     }
 
+    public function createNewLayoutNoBlanks(Request $request){
+        $inData =  $request->all();
+        $layoutName = $inData['name'];
+        $layoutHeight = $inData['height'];
+        $layoutWidth = $inData['width'];
+        $layoutDescription = $inData['description'];
+        $layoutInstance = new Layout;
+        $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription);
+        return json_encode($newLayoutId);
+
+    }
+
     public function getLayoutList(Request $request){
         $returnList = array();
         $layoutInstance = new Layout;

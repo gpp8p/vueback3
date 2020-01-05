@@ -52,14 +52,6 @@ class CardInstances extends Model
 
     public function createCardInstance($layoutId, $cardParams, $row, $column, $height, $width, $cardType){
 
-//        $thisCardInstance = new CardInstances;
-//        $thisCardInstance->layout_id = $layoutId;
-//        $thisCardInstance->view_type_id = ViewType::where('view_type_label', 'Web Browser')->first()->id;
-//        $thisCardInstance->card_component = $cardType;
-//        $thisCardInstance->row = $row;
-//        $thisCardInstance->col = $column;
-//        $thisCardInstance->height = $height;
-//        $thisCardInstance->width = $width;
 
         $viewType = ViewType::where('view_type_label', 'Web Browser')->first()->id;
         $newCardInstanceId =DB::table('card_instances')->insertGetId([

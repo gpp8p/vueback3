@@ -13,6 +13,18 @@ class Layout extends Model
     {
         return $this->hasMany(CardInstances::class);
     }
+
+    public function createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription){
+        $newLayoutId =DB::table('layouts')->insertGetId([
+            'menu_label'=>$layoutName,
+            'description'=>$layoutDescription,
+            'height'=>$layoutHeight,
+            'width'=>$layoutWidth,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        return $newLayoutId;
+    }
 //($layoutName, $height, $width, $cardParams, $testLayoutDescription)
     public function createBlankLayout($layoutName, $layoutHeight, $layoutWidth, $cardParams, $layoutDescription)
     {

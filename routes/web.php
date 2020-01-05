@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::get('/cardinstances', 'cardInstanceController@getLayoutCardInstances')->name('cardinstances');
 Route::get('/blankLayout', 'LayoutController@createBlankLayout')->name('blanklayout');
 Route::post('/createLayout', 'LayoutController@createNewLayout')->name('newlayout');
+Route::post('/createLayoutNoBlanks', 'LayoutController@createNewLayoutNoBlanks')->name('newlayoutNoBlanks');
 Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');
 Route::get('/getLayout', 'cardInstanceController@getLayoutById')->name('getLayout');
 Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');

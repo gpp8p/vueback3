@@ -108,6 +108,24 @@ class cardInstanceController extends Controller
         $returnData = array('cards'=>$allCardInstances, 'layout'=>$layoutProperties);
         return json_encode($returnData);
     }
+    public function saveCardOnly(Request $request){
+        $inData =  $request->all();
+        $layoutId = $inData['layoutId'];
+        $cardTitle = $inData['cardTitle'];
+        $cardType = $inData['cardType'];
+        $topLeftRow = $inData['topLeftRow'];
+        $topLeftCol = $inData['topLeftCol'];
+        $bottomRightRow = $inData['bottomRightRow'];
+        $bottomRightCol = $inData['bottomRightCol'];
+        $background = '#7FDBFF';
+        $cardParams = [['background-color', $background, true],['color','blue', true]];
+        $thisCardInstance = new CardInstances();
+        $cardWidth = ($bottomRightCol-$topLeftCol)+1;
+        $cardHeight = ($bottomRightRow-$topLeftRow)+1;
+        $thisCardInstance->createCardInstance($layoutId, $cardParams, $topLeftRow,$topLeftCol, $cardHeight, $cardWidth,$cardType);
+        return $this->getLayoutById($layoutId);
+
+    }
 
     public function saveCard(Request $request){
         $inData =  $request->all();

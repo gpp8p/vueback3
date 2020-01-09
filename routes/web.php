@@ -20,6 +20,7 @@ Route::get('/blankLayout', 'LayoutController@createBlankLayout')->name('blanklay
 Route::post('/createLayout', 'LayoutController@createNewLayout')->name('newlayout');
 Route::post('/createLayoutNoBlanks', 'LayoutController@createNewLayoutNoBlanks')->name('newlayoutNoBlanks');
 Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');
+Route::post('/saveCardOnly', 'cardInstanceController@saveCardOnly')->name('saveCardOnly');
 Route::get('/getLayout', 'cardInstanceController@getLayoutById')->name('getLayout');
 Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');
 Route::get('/csrfTest', 'cardInstanceController@getCsrf')->name('csrfTest');

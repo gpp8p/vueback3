@@ -19,6 +19,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/saveCard','/createLayout','/saveCard','/createLayoutNoBlanks'
+        '/saveCard','/createLayout','/saveCard','/createLayoutNoBlanks','/saveCardOnly'
     ];
 }

@@ -55,6 +55,11 @@ class cardInstanceController extends Controller
         $thisLayoutLabel = $layoutInfo[0]->menu_label;
         $thisCardInstance = new CardInstances;
         $thisLayoutCardInstances = $thisCardInstance->getLayoutCardInstancesById($layoutId);
+        if($thisLayoutCardInstances==null){
+            $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight);
+            $returnData = array('cards'=>[], 'layout'=>$layoutProperties);
+            return json_encode($returnData);
+        }
         $thisCardInstanceId = $thisLayoutCardInstances[0]->id;
         $allCardInstances = array();
         $thisCardInstanceParameter = array();

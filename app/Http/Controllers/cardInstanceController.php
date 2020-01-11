@@ -63,6 +63,7 @@ class cardInstanceController extends Controller
         $thisCardInstanceId = $thisLayoutCardInstances[0]->id;
         $allCardInstances = array();
         $thisCardInstanceParameter = array();
+        $thisCardInstanceProperty = array();
 //        $gridCss=$this->computeGridCss($thisLayoutCardInstances[0]->row, $thisLayoutCardInstances[0]->col, $thisLayoutCardInstances[0]->height, $thisLayoutCardInstances[0]->height);
         $thisCardInstanceText = "";
         $thisCardInstanceComponent = $thisLayoutCardInstances[0]->card_component;
@@ -75,8 +76,12 @@ class cardInstanceController extends Controller
         for($i =0; $i< count($thisLayoutCardInstances); $i++){
             if($thisLayoutCardInstances[$i]->id != $thisCardInstanceId){
                 $allCssParams = $this->computeGridCss($thisRow, $thisCol, $thisHeight, $thisWidth).";";
+                $allProperties = "";
                 foreach($thisCardInstanceParameter as $index => $value){
                     $allCssParams = $allCssParams.$index.':'.$value.';';
+                }
+                foreach($thisCardInstanceProperty as $index => $value){
+                    $allProperties = $allProperties.$index.':'.$value.';';
                 }
                 $cardCssParameters['style']=$allCssParams;
                 $cardPos = array($thisRow,$thisCol,$thisHeight,$thisWidth);
@@ -94,10 +99,14 @@ class cardInstanceController extends Controller
                 $thisCardInstanceId = $thisLayoutCardInstances[$i]->id;
                 if($thisLayoutCardInstances[$i]->isCss){
                     $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
+                }else{
+                    $thisCardInstanceProperty[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
                 }
             }else{
                 if($thisLayoutCardInstances[$i]->isCss){
                     $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
+                }else{
+                    $thisCardInstanceProperty[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
                 }
             }
         }
@@ -105,7 +114,11 @@ class cardInstanceController extends Controller
         foreach($thisCardInstanceParameter as $index => $value){
             $allCssParams = $allCssParams.$index.':'.$value.';';
         }
+        foreach($thisCardInstanceProperty as $index => $value){
+            $allProperties = $allProperties.$index.':'.$value.';';
+        }
         $cardCssParameters['style']=$allCssParams;
+        $cardCssParameters['properties']=$allProperties;
         $cardPos = array($thisRow,$thisCol,$thisHeight,$thisWidth);
         $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardCssParameters, 'toDelete'=>false, 'card_parameters'=>$cardCssParameters, 'card_position'=>$cardPos);
         array_push($allCardInstances, $newCardInstance);

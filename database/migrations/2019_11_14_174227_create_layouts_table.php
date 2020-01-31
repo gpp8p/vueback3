@@ -20,6 +20,9 @@ class CreateLayoutsTable extends Migration
             $table->string('description', 255);
             $table->integer('height');
             $table->integer('width');
+            $table->char('backgroundType',1)->default('C');
+            $table->string('backgroundColor',10)->nullable($value = true)->default('#DBDDD0');
+            $table->string('backgrounUrl',80)->nullable($value = true);
         });
     }
 

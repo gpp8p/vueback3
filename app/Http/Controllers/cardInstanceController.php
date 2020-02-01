@@ -114,6 +114,7 @@ class cardInstanceController extends Controller
         foreach($thisCardInstanceParameter as $index => $value){
             $allCssParams = $allCssParams.$index.':'.$value.';';
         }
+        $allProperties = '';
         foreach($thisCardInstanceProperty as $index => $value){
             $allProperties = $allProperties.$index.':'.$value.';';
         }

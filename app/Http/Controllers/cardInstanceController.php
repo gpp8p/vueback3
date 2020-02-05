@@ -182,6 +182,12 @@ class cardInstanceController extends Controller
         return $layoutId;
     }
 
+    public function saveCardParameters(Request $request){
+        $inData =  $request->all();
+        $decodedPost = json_decode($inData['cardParams']);
+        return "Ok";
+    }
+
     public function getCsrf(){
         return csrf_token();
     }

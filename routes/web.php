@@ -22,6 +22,7 @@ Route::post('/createLayoutNoBlanks', 'LayoutController@createNewLayoutNoBlanks')
 Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');
 Route::post('/saveCardOnly', 'cardInstanceController@saveCardOnly')->name('saveCardOnly');
 Route::post('/imageUpload', 'FileUploadController@recieveFile')->name('imageUpload');
+Route::post('/saveCardParameters','cardInstanceController@saveCardParameters')->name('saveCardParameters');
 Route::get('/getLayout', 'cardInstanceController@getLayoutById')->name('getLayout');
 //Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');
 //Route::get('/csrfTest', 'cardInstanceController@getCsrf')->name('csrfTest');

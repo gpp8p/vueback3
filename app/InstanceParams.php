@@ -15,15 +15,29 @@ class InstanceParams extends Model
 //        $newParam->isCss=$isCss;
 //        $newParam->save();
 
-        $newCardInstanceId =DB::table('instance_params')->insertGetId([
-            'card_instance_id'=>$instanceId,
-            'parameter_value'=>$value,
-            'parameter_key'=>$key,
-            'card_instance_id'=>$instanceId,
-            'isCss'=>$isCss,
-            'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
-        ]);
+        if(DB::table('instance_params')->where([
+            ['parameter_key','=',$key],
+            ['parameter_value','=',$value],
+            ['card_instance_id','=',$instanceId]
+                ])->exists()
+        ){
+            DB::table('instance_params')->where([
+                ['parameter_key','=',$key],
+                ['parameter_value','=',$value],
+                ['card_instance_id','=',$instanceId]
+            ])->update([$key=>$value]);
+        }else{
+            $newCardInstanceId =DB::table('instance_params')->insertGetId([
+                'card_instance_id'=>$instanceId,
+                'parameter_value'=>$value,
+                'parameter_key'=>$key,
+                'card_instance_id'=>$instanceId,
+                'isCss'=>$isCss,
+                'created_at'=>\Carbon\Carbon::now(),
+                'updated_at'=>\Carbon\Carbon::now()
+            ]);
+        }
+
 
 
 

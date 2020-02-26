@@ -50,6 +50,7 @@ class CardInstances extends Model
         }
     }
 
+
     public function createCardInstance($layoutId, $cardParams, $row, $column, $height, $width, $cardType){
 
 

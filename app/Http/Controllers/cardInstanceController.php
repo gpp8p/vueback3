@@ -144,13 +144,37 @@ class cardInstanceController extends Controller
         $topLeftCol = $inData['topLeftCol'];
         $bottomRightRow = $inData['bottomRightRow'];
         $bottomRightCol = $inData['bottomRightCol'];
-        $background = '#7FDBFF';
-        $cardParams = [['background-color', $background, true],['color','blue', true]];
+        $background = 'background-color:#7FDBFF;';
+        $cardParams = [['backgroundColor', $background, true],['color','color:blue;', true]];
+//        $cardParams = [];
         $thisCardInstance = new CardInstances();
         $cardWidth = ($bottomRightCol-$topLeftCol)+1;
         $cardHeight = ($bottomRightRow-$topLeftRow)+1;
         $thisCardInstance->createCardInstance($layoutId, $cardParams, $topLeftRow,$topLeftCol, $cardHeight, $cardWidth,$cardType);
         return $this->getLayoutById($request);
+
+    }
+
+    public function getCardDataById(Request $request){
+        $inData =  $request->all();
+        $cardId = $inData['cardId'];
+        $thisCardInstanceParams = new InstanceParams();
+        $cardParams = $thisCardInstanceParams->getCardInstanceParams($cardId);
+        $configParameters=array();
+        $contentParameters=array();
+        foreach($cardParams as $thisCardParam){
+            $thisCardParameterElement = $thisCardParam->parameter_key;
+            $parameterElementLength = strlen($thisCardParam-> parameter_key)+2;
+            $thisCardParameterValue = substr($thisCardParam->parameter_value, $parameterElementLength, -1);
+            $thisCardParameterElementCombo = [$thisCardParameterElement,$thisCardParameterValue];
+            if($thisCardParam->isCss){
+                array_push($configParameters, $thisCardParameterElementCombo);
+            }else{
+                array_push($contentParameters, $thisCardParameterElementCombo);
+            }
+        }
+        $returnData = [$configParameters, $contentParameters];
+        return json_encode($returnData);
 
     }
 

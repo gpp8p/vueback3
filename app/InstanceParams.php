@@ -42,4 +42,16 @@ class InstanceParams extends Model
 
 
     }
+    function getCardInstanceParams($CardId){
+        if(DB::table('instance_params')->where([
+            ['card_instance_id','=',$CardId]
+        ])->exists()
+        ){
+            return  DB::table('instance_params')->where([
+                ['card_instance_id','=',$CardId]
+            ])->get();
+        }else{
+            return [];
+        }
+    }
 }

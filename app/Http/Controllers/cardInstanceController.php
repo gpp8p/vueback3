@@ -44,7 +44,6 @@ class cardInstanceController extends Controller
 
         return json_encode($allCardInstances);
     }
-
     public function getLayoutById(Request $request){
         $inData =  $request->all();
         $layoutId = $inData['layoutId'];
@@ -61,78 +60,52 @@ class cardInstanceController extends Controller
             $returnData = array('cards'=>[], 'layout'=>$layoutProperties);
             return json_encode($returnData);
         }
-        $thisCardInstanceId = $thisLayoutCardInstances[0]->id;
+        $cardsReadIn = array();
         $allCardInstances = array();
-        $thisCardInstanceParameter = array();
-        $thisCardInstanceProperty = array();
-//        $gridCss=$this->computeGridCss($thisLayoutCardInstances[0]->row, $thisLayoutCardInstances[0]->col, $thisLayoutCardInstances[0]->height, $thisLayoutCardInstances[0]->height);
-        $thisCardInstanceText = "";
-        $thisCardInstanceComponent = $thisLayoutCardInstances[0]->card_component;
-        $thisRow = $thisLayoutCardInstances[0]->row;
-        $thisCol = $thisLayoutCardInstances[0]->col;
-        $thisHeight = $thisLayoutCardInstances[0]->height;
-        $thisWidth = $thisLayoutCardInstances[0]->width;
-        $lastCard = count($thisLayoutCardInstances)-1;
-        $instancesAdded = 0;
-        for($i =0; $i< count($thisLayoutCardInstances); $i++){
-            if($thisLayoutCardInstances[$i]->id != $thisCardInstanceId){
-                $allCssParams = $this->computeGridCss($thisRow, $thisCol, $thisHeight, $thisWidth).";";
-                $allProperties = "";
-                foreach($thisCardInstanceParameter as $index => $value){
-//                    $allCssParams = $allCssParams.$index.':'.$value.';';
-                      $allCssParams = $allCssParams.$value;
-                }
-                foreach($thisCardInstanceProperty as $index => $value){
-                    $allProperties = $allProperties.$index.chr(30).$value.chr(28);
-                }
-                $cardParams['style']=$allCssParams;
-                $cardParams['properties']=$allProperties;
-                $cardPos = array($thisRow,$thisCol,$thisHeight,$thisWidth);
-                $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardParams, 'card_position'=>$cardPos);
-                array_push($allCardInstances, $newCardInstance);
-                $thisRow = $thisLayoutCardInstances[$i]->row;
-                $thisCol = $thisLayoutCardInstances[$i]->col;
-                $thisHeight = $thisLayoutCardInstances[$i]->height;
-                $thisWidth = $thisLayoutCardInstances[$i]->width;
-
-                $thisCardInstanceParameter = array();
-                $thisCardInstanceProperty = array();
-                $thisCardInstanceText = "";
-                $thisCardInstanceComponent = $thisLayoutCardInstances[$i]->card_component;
-                $instancesAdded++;
-                $thisCardInstanceId = $thisLayoutCardInstances[$i]->id;
-/*
-                if($thisLayoutCardInstances[$i]->isCss){
-                    $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
-                }else{
-                    $thisCardInstanceProperty[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
-                }
-*/
-            }else{
-                if($thisLayoutCardInstances[$i]->isCss){
-                    $thisCardInstanceParameter[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
-
-                }else{
-                    $thisCardInstanceProperty[$thisLayoutCardInstances[$i]->parameter_key]=$thisLayoutCardInstances[$i]->parameter_value;
-
-                }
+        foreach($thisLayoutCardInstances as $card) {
+            $thisId = strval($card->id);
+            $thisCardData = array($card->parameter_key, $card->parameter_value, $card->isCss, $card->card_component, $card->col, $card->row, $card->height, $card->width, $card->id);
+            if(!array_key_exists($thisId, $cardsReadIn)){
+                $cardsReadIn[$thisId] = [$thisCardData];
+            } else {
+                array_push($cardsReadIn[$thisId], $thisCardData);
             }
         }
-        $allCssParams = $this->computeGridCss($thisRow, $thisCol, $thisHeight, $thisWidth).";";
-        foreach($thisCardInstanceParameter as $index => $value){
-            $allCssParams = $allCssParams.$value;
+        foreach($cardsReadIn as $thisCardArray){
+            $thisCardCss="";
+            $thisCardProperties="";
+            foreach($thisCardArray as $thisCard){
+                if($thisCard[2]==1){
+                    $thisCardCss=$thisCardCss.$thisCard[1];
+                }else{
+                    $thisCardProperties=$thisCardProperties.$thisCard[1];
+                }
+                $thisCardIsCss = $thisCard[2];
+                $thisCardParameterKey = $thisCard[0];
+                $thisCardComponent = $thisCard[3];
+                $thisCardCol = $thisCard[4];
+                $thisCardRow = $thisCard[5];
+                $thisCardHeight = $thisCard[6];
+                $thisCardWidth = $thisCard[7];
+                $thisCardId = $thisCard[8];
+            }
+            $cssGridParams = $this->computeGridCss($thisCardRow, $thisCardCol, $thisCardHeight, $thisCardWidth).";";
+            $thisCardParameters = array(
+                'style'=>$cssGridParams.$thisCardCss,
+                'properties'=>$thisCardProperties
+            );
+            $thisCardPosition = array($thisCardRow,$thisCardCol,$thisCardHeight,$thisCardWidth);
+            $thisCardData = array(
+                'id'=>$thisCardId,
+                'card_component'=>$thisCardComponent,
+                'card_parameters'=>$thisCardParameters,
+                'card_position'=>$thisCardPosition
+            );
+            array_push($allCardInstances, $thisCardData);
         }
-        $allProperties = '';
-        foreach($thisCardInstanceProperty as $index => $value){
-            $allProperties = $allProperties.$index.chr(30).$value.chr(28);
-        }
-        $cardParams['style']=$allCssParams;
-        $cardParams['properties']=$allProperties;
-        $cardPos = array($thisRow,$thisCol,$thisHeight,$thisWidth);
-        $newCardInstance = array('id'=>$thisCardInstanceId, 'card_component'=>$thisCardInstanceComponent, 'card_parameters'=>$cardParams, 'toDelete'=>false, 'card_position'=>$cardPos);
-        array_push($allCardInstances, $newCardInstance);
         $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight);
         $returnData = array('cards'=>$allCardInstances, 'layout'=>$layoutProperties);
+
         return json_encode($returnData);
     }
     public function saveCardOnly(Request $request){
@@ -145,7 +118,7 @@ class cardInstanceController extends Controller
         $bottomRightRow = $inData['bottomRightRow'];
         $bottomRightCol = $inData['bottomRightCol'];
         $background = 'background-color:#7FDBFF;';
-        $cardParams = [['backgroundColor', $background, true],['color','color:blue;', true]];
+        $cardParams = [['backgroundColor', $background, true],['color','color:blue;', true],['backgroundTypeColor','backgroundTypeColor:checked;',true]];
 //        $cardParams = [];
         $thisCardInstance = new CardInstances();
         $cardWidth = ($bottomRightCol-$topLeftCol)+1;
@@ -164,9 +137,20 @@ class cardInstanceController extends Controller
         $contentParameters=array();
         foreach($cardParams as $thisCardParam){
             $thisCardParameterElement = $thisCardParam->parameter_key;
-            $parameterElementLength = strlen($thisCardParam-> parameter_key)+2;
-            $thisCardParameterValue = substr($thisCardParam->parameter_value, $parameterElementLength, -1);
-            $thisCardParameterElementCombo = [$thisCardParameterElement,$thisCardParameterValue];
+            if($thisCardParam->parameter_value=='checked'){
+                $thisCardParameterValue="checked";
+            }else{
+                $colonLocationInCssParam = strpos($thisCardParam->parameter_value, ':')+1;
+                $thisCardParameterValue = substr($thisCardParam->parameter_value,$colonLocationInCssParam );
+                $thisCardParameterValue = str_replace(';','', $thisCardParameterValue);
+
+
+//                $parameterElementLength = strlen($thisCardParam-> parameter_key)+2;
+//                $thisCardParameterValue = substr($thisCardParam->parameter_value, $parameterElementLength, -1);
+            }
+//            $thisCardParameterElementCombo = [$thisCardParameterElement,$thisCardParameterElement.':'.$thisCardParameterValue];
+//            $thisCardParameterElementCombo = [$thisCardParameterElement,$thisCardParameterValue];
+            $thisCardParameterElementCombo = [$thisCardParam->parameter_key, $thisCardParam->parameter_value ];
             if($thisCardParam->isCss){
                 array_push($configParameters, $thisCardParameterElementCombo);
             }else{

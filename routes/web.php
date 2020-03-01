@@ -25,6 +25,7 @@ Route::post('/imageUpload', 'FileUploadController@recieveFile')->name('imageUplo
 Route::post('/saveCardParameters','cardInstanceController@saveCardParameters')->name('saveCardParameters');
 Route::get('/getCardDataById', 'cardInstanceController@getCardDataById')->name('getCardDataById');
 Route::get('/getLayout', 'cardInstanceController@getLayoutById')->name('getLayout');
+Route::get('/getLayout2', 'cardInstanceController@getLayoutById2')->name('getLayout2');
 //Route::post('/saveCard', 'cardInstanceController@saveCard')->name('saveCard');
 //Route::get('/csrfTest', 'cardInstanceController@getCsrf')->name('csrfTest');
 //Route::get('/serveTest', 'cardInstanceController@serveTest')->name('serveTest');

@@ -7,6 +7,7 @@ use App\CardInstances;
 use App\InstanceParams;
 use App\layout;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class cardInstanceController extends Controller
 {
@@ -202,14 +203,22 @@ class cardInstanceController extends Controller
         $inData =  $request->all();
         $decodedPost = json_decode($inData['cardParams']);
         $thisInstanceParams = new InstanceParams;
-        foreach ($decodedPost[1] as $key => $value) {
-            $thisInstanceParams->createInstanceParam($key,$value,$decodedPost[0], true);
-//            print "$key => $value\n";
+        DB::beginTransaction();
+        DB::table('instance_params')->where('card_instance_id', '=', $decodedPost[0])->sharedLock()->get();
+        DB::table('instance_params')->where('card_instance_id', '=', $decodedPost[0])->delete();
+        try {
+            foreach ($decodedPost[1] as $key => $value) {
+                $thisInstanceParams->createInstanceParam($key, $value, $decodedPost[0], true);
+                //            print "$key => $value\n";
+            }
+            foreach ($decodedPost[2] as $key => $value) {
+                $thisInstanceParams->createInstanceParam($key, $value, $decodedPost[0], false);
+                //            print "$key => $value\n";
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
         }
-        foreach ($decodedPost[2] as $key => $value) {
-            $thisInstanceParams->createInstanceParam($key,$value,$decodedPost[0], false);
-//            print "$key => $value\n";
-        }
+        DB::commit();
 
         return "Ok";
     }

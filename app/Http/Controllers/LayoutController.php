@@ -44,9 +44,10 @@ class LayoutController extends Controller
         $layoutName = $inData['name'];
         $layoutHeight = $inData['height'];
         $layoutWidth = $inData['width'];
+        $layoutBackgroundColor = $inData['backgroundColor'];
         $layoutDescription = $inData['description'];
         $layoutInstance = new Layout;
-        $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription);
+        $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription, $layoutBackgroundColor);
         return json_encode($newLayoutId);
 
     }

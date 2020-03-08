@@ -14,7 +14,7 @@ class Layout extends Model
         return $this->hasMany(CardInstances::class);
     }
 
-    public function createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription){
+    public function createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription, $backgroundColor){
         $newLayoutId =DB::table('layouts')->insertGetId([
             'menu_label'=>$layoutName,
             'description'=>$layoutDescription,

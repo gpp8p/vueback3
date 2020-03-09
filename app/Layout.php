@@ -15,15 +15,16 @@ class Layout extends Model
     }
 
     public function createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription, $backgroundColor){
-        $newLayoutId =DB::table('layouts')->insertGetId([
+        $newlayoutId =db::table('layouts')->insertgetid([
             'menu_label'=>$layoutName,
             'description'=>$layoutDescription,
             'height'=>$layoutHeight,
             'width'=>$layoutWidth,
-            'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'backgroundColor'=>$backgroundColor,
+            'created_at'=>\carbon\carbon::now(),
+            'updated_at'=>\carbon\carbon::now()
         ]);
-        return $newLayoutId;
+        return $newlayoutId;
     }
 //($layoutName, $height, $width, $cardParams, $testLayoutDescription)
     public function createBlankLayout($layoutName, $layoutHeight, $layoutWidth, $cardParams, $layoutDescription)

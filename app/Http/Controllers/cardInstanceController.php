@@ -53,11 +53,12 @@ class cardInstanceController extends Controller
         $thisLayoutDescription = $layoutInfo[0]->description;
         $thisLayoutWidth = $layoutInfo[0]->width;
         $thisLayoutHeight = $layoutInfo[0]->height;
+        $thisLayoutBackgroundColor = $layoutInfo[0]->backgroundColor;
         $thisLayoutLabel = $layoutInfo[0]->menu_label;
         $thisCardInstance = new CardInstances;
         $thisLayoutCardInstances = $thisCardInstance->getLayoutCardInstancesById($layoutId);
         if($thisLayoutCardInstances==null){
-            $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight);
+            $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight, 'backgroundColor'=>$thisLayoutBackgroundColor);
             $returnData = array('cards'=>[], 'layout'=>$layoutProperties);
             return json_encode($returnData);
         }
@@ -104,7 +105,7 @@ class cardInstanceController extends Controller
             );
             array_push($allCardInstances, $thisCardData);
         }
-        $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight);
+        $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight, 'backgroundColor'=>$thisLayoutBackgroundColor);
         $returnData = array('cards'=>$allCardInstances, 'layout'=>$layoutProperties);
 
         return json_encode($returnData);

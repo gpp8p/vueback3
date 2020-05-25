@@ -53,6 +53,9 @@ class LayoutController extends Controller
     }
 
     public function getLayoutList(Request $request){
+//        if(auth()->user()==null){
+//            abort(401, 'Unauthorized action.');
+//        }
         $returnList = array();
         $layoutInstance = new Layout;
         $allLayouts = $layoutInstance->all();

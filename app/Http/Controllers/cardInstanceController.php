@@ -119,7 +119,7 @@ class cardInstanceController extends Controller
         $topLeftCol = $inData['topLeftCol'];
         $bottomRightRow = $inData['bottomRightRow'];
         $bottomRightCol = $inData['bottomRightCol'];
-        $background = 'background-color:#7FDBFF;';
+        $background = 'background-color:#dbddd0;';
         $cardParams = [['backgroundColor', $background, true],['color','color:blue;', true],['backgroundTypeColor','backgroundTypeColor:checked;',true]];
 //        $cardParams = [];
         $thisCardInstance = new CardInstances();
@@ -224,8 +224,41 @@ class cardInstanceController extends Controller
         return "Ok";
     }
 
-    public function getCsrf(){
-        return csrf_token();
+    public function saveCardContent(Request $request){
+        $inData =  $request->all();
+        $decodedPost = json_decode($inData['cardParams']);
+        $thisInstanceParams = new InstanceParams;
+        DB::beginTransaction();
+        DB::table('instance_params')->where([
+            ['card_instance_id', '=', $decodedPost[0]],
+            ['isCss','=',0]
+        ])->sharedLock()->get();
+        DB::table('instance_params')->where([
+            ['card_instance_id', '=', $decodedPost[0]],
+            ['isCss','=',0]
+        ])->delete();
+        try {
+            foreach ($decodedPost[1] as $key => $value) {
+                $thisInstanceParams->createInstanceParam($key, $value, $decodedPost[0], false);
+                //            print "$key => $value\n";
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+        DB::commit();
+
+        return "Ok";
+    }
+
+    public function getCsrf(Request $request){
+        return $request->session()->token();
+    }
+
+    public function postCsrf(Request $request){
+        $inData =  $request->all();
+        $thisContent = $inData['content'];
+        return $thisContent.' was posted';
+
     }
 
     public function serveTest(){

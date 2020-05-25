@@ -16,18 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ViewTypeTableSeeder::class);
-        // Disable all mass assignment restrictions
-        CardInstances::unguard();
-
-
-        $this->call(CardInstancesTableSeeder::class);
-
-        // Re enable all mass assignment restrictions
-        CardInstances::reguard();
-        InstanceParams::unguard();
-        $this->call(InstanceParamsTableSeeder::class);
-        InstanceParams::reguard();
-
+        $this->call(userSeed::class);
+        $this->call(orgSeed::class);
+        $this->call(groupSeed::class);
+        $this->call(permSeed::class);
     }
 }

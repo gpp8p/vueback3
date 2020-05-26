@@ -28,7 +28,6 @@ Route::group([
     Route::post('logout', 'JWTAuthController@logout');
     Route::post('refresh', 'JWTAuthController@refresh');
     Route::get('profile', 'JWTAuthController@profile');
-    Route::get('layoutList', 'LayoutController@getLayoutList');
 
 });
 
@@ -38,6 +37,7 @@ Route::group([
 
 ], function ($router) {
 
+//    Route::get('loggedInUser', )
     Route::get('layoutList', 'LayoutController@getLayoutList');
 
 });

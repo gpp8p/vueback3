@@ -114,4 +114,20 @@ class JWTAuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+    public function guestLogin(){
+        $guestCredentials = ['email'=>'guest@nomail.com', 'password'=>'guest'];
+        $guestToken = auth()->attempt($guestCredentials);
+        return $this->createNewToken($guestToken);
+    }
+
+    public function getLoggedInUser(Request $request)
+    {
+        if(auth()->user()!=null){
+            return response()->json(auth()->user());
+        }else{
+            $this->guestLogin();
+            return response()->json(auth()->user());
+        }
+    }
 }

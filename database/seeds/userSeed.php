@@ -40,9 +40,9 @@ class userSeed extends Seeder
             'updated_at'=>\Carbon\Carbon::now()
         ]);
         $lastRcd =DB::table('users')->insertGetId([
-            'name'=>    'Guest',
-            'email'=>   'Guest',
-            'password'=> Hash::make('guest'),
+            'name'=>    'GuestUser',
+            'email'=>   'GuestUser@nomail.com',
+            'password'=> Hash::make('GuestUser'),
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);

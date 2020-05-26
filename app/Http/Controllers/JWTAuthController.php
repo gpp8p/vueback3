@@ -17,7 +17,7 @@ class JWTAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'loggedInUser']]);
     }
 
     /**
@@ -51,6 +51,7 @@ class JWTAuthController extends Controller
      */
     public function login(Request $request)
     {
+        $inData = $request->all();
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:6',
@@ -108,12 +109,16 @@ class JWTAuthController extends Controller
      */
     protected function createNewToken($token)
     {
+        $thisUserName = auth()->user()->name;
+
         return response()->json([
+            'userName'=>$thisUserName,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
 
     public function guestLogin(){
         $guestCredentials = ['email'=>'guest@nomail.com', 'password'=>'guest'];
@@ -124,10 +129,10 @@ class JWTAuthController extends Controller
     public function getLoggedInUser(Request $request)
     {
         if(auth()->user()!=null){
-            return response()->json(auth()->user());
+            return $this->createNewToken(auth()->refresh());
         }else{
             $this->guestLogin();
-            return response()->json(auth()->user());
+            return $this->createNewToken(auth()->refresh());
         }
     }
 }

@@ -7,12 +7,32 @@ use Illuminate\Http\Request;
 
 class OrgController extends Controller
 {
-    public function getOrgIdFromName($orgName){
+    public function getOrgIdFromName(Request $request){
+        $inData = $request->all();
+        $orgName = $inData['orgName'];
         $thisOrg = new Org();
         try {
             $thisOrgId = $thisOrg->getOrgId($orgName);
             return response()->json([
                 'orgId'=>$thisOrgId,
+                'result'=>'ok'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'result'=>'error',
+                'errorDescription'=>$e>getMessage()
+            ]);
+        }
+    }
+    public function getOrgHomefromName(Request $request){
+        $inData = $request->all();
+        $orgName = $inData['orgName'];
+        $thisOrg = new Org();
+        try {
+            $thisOrgHome = $thisOrg->getOrgHome($orgName);
+
+            return response()->json([
+                'orgHome'=>$thisOrgHome,
                 'result'=>'ok'
             ]);
         } catch (\Exception $e) {

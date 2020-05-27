@@ -18,6 +18,7 @@ class Org extends Migration
             $table->timestamps();
             $table->string('org_label',32);
             $table->string('description', 255);
+            $table->unsignedBigInteger('top_layout_id')->default(0);
         });
     }
     /**

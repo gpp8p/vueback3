@@ -15,6 +15,7 @@ class userSeed extends Seeder
             'name'=>    'George Pipkin',
             'email'=>   'gpp8pvirginia@gmail.com',
             'password'=> Hash::make('n1tad0g'),
+            'is_admin'=>true,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -22,6 +23,7 @@ class userSeed extends Seeder
             'name'=>    'Billy Budd',
             'email'=>   'budd@gmail.com',
             'password'=> Hash::make('n1tad0g'),
+            'is_admin'=>false,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -29,6 +31,7 @@ class userSeed extends Seeder
             'name'=>    'Nancy Normal',
             'email'=>   'normal@gmail.com',
             'password'=> Hash::make('n1tad0g'),
+            'is_admin'=>false,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -36,6 +39,7 @@ class userSeed extends Seeder
             'name'=>    'Shirley Skyfall',
             'email'=>   'shirley@gmail.com',
             'password'=> Hash::make('n1tad0g'),
+            'is_admin'=>false,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -43,6 +47,7 @@ class userSeed extends Seeder
             'name'=>    'GuestUser',
             'email'=>   'GuestUser@nomail.com',
             'password'=> Hash::make('GuestUser'),
+            'is_admin'=>false,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);

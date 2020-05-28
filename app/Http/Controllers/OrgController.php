@@ -24,7 +24,7 @@ class OrgController extends Controller
             ]);
         }
     }
-    public function getOrgHomefromName(Request $request){
+    public function getOrgHomeFromName(Request $request){
         $inData = $request->all();
         $orgName = $inData['orgName'];
         $thisOrg = new Org();

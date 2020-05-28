@@ -20,7 +20,7 @@ class Org extends Model
 
     public function getOrgHome($orgName){
         try {
-            $thisOrgHome = DB::table('org')->where('org_label', $orgName)->first()->value('top_layout_id');
+            $thisOrgHome = DB::table('org')->where('org_label', $orgName)->value('top_layout_id');
             return $thisOrgHome;
         } catch (\Exception $e) {
             throw new Exception('org not found');

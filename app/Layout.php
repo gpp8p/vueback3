@@ -74,4 +74,50 @@ class Layout extends Model
     public function getLayoutList(){
         return App/Layout::all();
     }
+
+    public function getAllPermsForUser($userId, $layoutId, $orgId){
+
+        $query = "select distinct users.name, groups.group_label, groups.id as group_id, perms.view, perms.admin, perms.author, perms.opt1, perms.opt2, perms.opt3 from layouts, groups, usergroup, users, userorg, org, perms ".
+            "where perms.layout_id = layouts.id ".
+            "and perms.group_id = groups.id ".
+            "and usergroup.group_id = groups.id ".
+            "and usergroup.user_id = users.id ".
+            "and userorg.user_id = users.id ".
+            "and userorg.org_id = org.id ".
+            "and layouts.id=? ".
+            "and users.id = ? ".
+            "and org.id = ? ";
+
+        $retrievedPerms  =  DB::select($query, [$layoutId, $userId, $orgId]);
+        return $retrievedPerms;
+
+
+    }
+
+    public function getPermsSummaryForUser($userId, $layoutId, $orgId){
+
+        $query = "select distinct sum(perms.view) as view, sum(perms.admin) as admin, sum(perms.author) as author, sum(perms.opt1) as opt1, sum(perms.opt2) as opt2, sum(perms.opt3) as opt3 from layouts, groups, usergroup, users, userorg, org, perms ".
+            "where perms.layout_id = layouts.id ".
+            "and perms.group_id = groups.id ".
+            "and usergroup.group_id = groups.id ".
+            "and usergroup.user_id = users.id ".
+            "and userorg.user_id = users.id ".
+            "and userorg.org_id = org.id ".
+            "and layouts.id=? ".
+            "and users.id = ? ".
+            "and org.id = ? ";
+
+        $retrievedPerms  =  DB::select($query, [$layoutId, $userId, $orgId]);
+        return $retrievedPerms;
+    }
+
+    public function addPermForGroup($groupId, $layoutId, $permType){
+        DB::table('perms')
+            ->updateOrInsert(
+                ['layout_id' => $layoutId, 'group_id' => $groupId],
+                [$permType => 1]
+            );
+    }
+
+
 }

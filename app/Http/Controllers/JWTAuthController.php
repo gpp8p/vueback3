@@ -110,10 +110,12 @@ class JWTAuthController extends Controller
     protected function createNewToken($token)
     {
         $thisUserName = auth()->user()->name;
+        $thisUserId =auth()->user()->id;
         $thisUserIsAdmin = auth()->user()->is_admin;
 
         return response()->json([
             'userName'=>$thisUserName,
+            'userId'=>$thisUserId,
             'is_admin'=>$thisUserIsAdmin,
             'access_token' => $token,
             'token_type' => 'bearer',

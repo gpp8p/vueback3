@@ -111,13 +111,15 @@ class Layout extends Model
         return $retrievedPerms;
     }
 
-    public function addPermForGroup($groupId, $layoutId, $permType){
+    public function editPermForGroup($groupId, $layoutId, $permType, $permValue){
         DB::table('perms')
             ->updateOrInsert(
                 ['layout_id' => $layoutId, 'group_id' => $groupId],
-                [$permType => 1]
+                [$permType => $permValue]
             );
     }
+
+
 
 
 }

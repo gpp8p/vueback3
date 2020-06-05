@@ -119,6 +119,42 @@ class Layout extends Model
             );
     }
 
+    public function getViewableLayoutIds($userId, $orgId){
+
+        $query = "select distinct layouts.description, layouts.id from layouts, perms where layouts.id in ( ".
+            "select distinct layouts.id from layouts, groups, usergroup, users, userorg, org, perms ".
+            "where perms.layout_id = layouts.id ".
+            "and perms.group_id = groups.id ".
+            "and usergroup.group_id = groups.id ".
+            "and usergroup.user_id = users.id ".
+            "and userorg.user_id = users.id ".
+            "and userorg.org_id = org.id ".
+            "and perms.view=1 ".
+            "and users.id = ? ".
+            "and org.id = ?) ".
+            "and perms.view=1 ";
+
+        $retrievedLayouts  =  DB::select($query, [$userId, $orgId]);
+        return $retrievedLayouts;
+
+    }
+
+    public function getLayoutGroups($layoutId, $orgId, $userId){
+        $query = "select groups.description, groups.id, perms.view, perms.author, perms.admin, perms.opt1, perms.opt2, perms.opt3 from groups, perms, users, usergroup, userorg, org ".
+            "where groups.id = perms.group_id ".
+            "and usergroup.group_id = groups.id ".
+            "and usergroup.user_id = users.id ".
+            "and userorg.user_id = users.id ".
+            "and userorg.org_id = org.id ".
+            "and org.id = ? ".
+            "and users.id=? ".
+            "and perms.layout_id = ?";
+
+        $retrievedGroups  =  DB::select($query, [$orgId, $userId, $layoutId]);
+        return $retrievedGroups;
+
+    }
+
 
 
 

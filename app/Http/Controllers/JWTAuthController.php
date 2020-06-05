@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\Request;
 use App\User;
+use Response;
 
 class JWTAuthController extends Controller
 {
@@ -65,7 +66,14 @@ class JWTAuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->createNewToken($token);
+//        $newToken = $this->createNewToken($token);
+        $thisUserName = auth()->user()->name;
+        $thisUserId =auth()->user()->id;
+        $thisUserIsAdmin = auth()->user()->is_admin;
+
+        return Response::json(array('userName'=>$thisUserName, 'userId'=>$thisUserId, 'is_admin'=>$thisUserIsAdmin, 'access_token' => $token, 'token_type' => 'bearer', 'expires_in' => auth()->factory()->getTTL() * 60));
+
+//        return response($newToken);
     }
 
     /**
@@ -138,5 +146,24 @@ class JWTAuthController extends Controller
             $this->guestLogin();
             return $this->createNewToken(auth()->refresh());
         }
+    }
+
+    public function setCookie(Request $request){
+        $inData = $request->all();
+        $token = $inData['token'];
+        $cookie = cookie(
+            'access_token',
+            $token,
+            auth()->factory()->getTTL() * 60,
+            null,
+            null,
+            false,
+            false
+        );
+        return Response::make('Ok')->withCookie($cookie);
+
+
+
+
     }
 }

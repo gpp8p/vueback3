@@ -41,5 +41,6 @@ Route::group([
 //    Route::get('loggedInUser', )
     Route::get('layoutList', 'LayoutController@getLayoutList');
     Route::get('orgHome','OrgController@getOrgHomeFromName');
+    Route::post('setCookie', 'JWTAuthController@setCookie');
 
 });

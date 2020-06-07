@@ -121,7 +121,7 @@ class Layout extends Model
 
     public function getViewableLayoutIds($userId, $orgId){
 
-        $query = "select distinct layouts.description, layouts.id from layouts, perms where layouts.id in ( ".
+        $query = "select distinct layouts.description, layouts.id, layouts.menu_label, layouts.height, layouts.width from layouts, perms where layouts.id in ( ".
             "select distinct layouts.id from layouts, groups, usergroup, users, userorg, org, perms ".
             "where perms.layout_id = layouts.id ".
             "and perms.group_id = groups.id ".

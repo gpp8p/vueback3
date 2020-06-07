@@ -17,7 +17,7 @@ class OrgController extends Controller
                 'orgId'=>$thisOrgId,
                 'result'=>'ok'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'result'=>'error',
                 'errorDescription'=>$e>getMessage()
@@ -29,13 +29,14 @@ class OrgController extends Controller
         $orgName = $inData['orgName'];
         $thisOrg = new Org();
         try {
-            $thisOrgHome = $thisOrg->getOrgHome($orgName);
+            $thisOrgInfo = $thisOrg->getOrgHome($orgName);
 
             return response()->json([
-                'orgHome'=>$thisOrgHome,
+                'orgHome'=>$thisOrgInfo[0]->top_layout_id,
+                'orgId'=>$thisOrgInfo[0]->id,
                 'result'=>'ok'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'result'=>'error',
                 'errorDescription'=>$e>getMessage()

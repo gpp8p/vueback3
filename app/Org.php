@@ -12,19 +12,29 @@ class Org extends Model
         try {
             $thisOrgId = DB::table('org')->where('org_label', $orgName)->first()->value('id');
             return $thisOrgId;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            throw new Exception('org not found');
+        }
+
+    }
+
+    public function getOrgHomeOld($orgName){
+        try {
+            $thisOrgHome = DB::table('org')->where('org_label', $orgName)->value('top_layout_id');
+            return $thisOrgHome;
+        } catch (Exception $e) {
             throw new Exception('org not found');
         }
 
     }
 
     public function getOrgHome($orgName){
+        $query = "select id, top_layout_id from org where org_label = ?";
         try {
-            $thisOrgHome = DB::table('org')->where('org_label', $orgName)->value('top_layout_id');
-            return $thisOrgHome;
-        } catch (\Exception $e) {
-            throw new Exception('org not found');
+            $orgInfo = DB::select($query, [$orgName]);
+            return $orgInfo;
+        } catch (Exception $e) {
+            throw new Exception('error - org not found');
         }
-
     }
 }

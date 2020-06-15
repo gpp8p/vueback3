@@ -30,6 +30,15 @@ class Group extends Model
         return $personalGroupId;
     }
 
+    public function addUserToGroup($userId, $groupId){
+        DB::table('usergroup')->insert([
+            'group_id'=>$groupId,
+            'user_id'=>$userId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+    }
+
     public function addNewPersonalGroup($userId, $userName, $userEmail){
 
     }

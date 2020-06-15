@@ -24,6 +24,7 @@ class Perms extends Migration
             $table->tinyInteger('opt1')->default(0);
             $table->tinyInteger('opt2')->default(0);
             $table->tinyInteger('opt3')->default(0);
+            $table->tinyInteger('isLayoutGroup')->default(0);
         });
     }
 

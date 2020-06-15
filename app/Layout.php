@@ -114,7 +114,7 @@ class Layout extends Model
     public function editPermForGroup($groupId, $layoutId, $permType, $permValue){
         DB::table('perms')
             ->updateOrInsert(
-                ['layout_id' => $layoutId, 'group_id' => $groupId],
+                ['layout_id' => $layoutId, 'group_id' => $groupId, 'created_at'=>\Carbon\Carbon::now(),'updated_at'=>\Carbon\Carbon::now()],
                 [$permType => $permValue]
             );
     }

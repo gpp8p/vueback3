@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Layout;
 use Illuminate\Http\Request;
 use App\CardInstances;
+use App\Group;
 
 class LayoutController extends Controller
 {
@@ -46,8 +47,17 @@ class LayoutController extends Controller
         $layoutWidth = $inData['width'];
         $layoutBackgroundColor = $inData['backgroundColor'];
         $layoutDescription = $inData['description'];
+        $userId = $inData['userId'];
+        $orgId = $inData['orgId'];
         $layoutInstance = new Layout;
         $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription, $layoutBackgroundColor);
+
+        $thisGroup = new Group;
+        $up = $thisGroup->returnPersonalGroupId($userId);
+        $userPersonalGroupId = $up[0]->id;
+        $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'view', 1);
+        $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'author', 1);
+        $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'admin', 1);
         return json_encode($newLayoutId);
 
     }

@@ -44,5 +44,6 @@ Route::group([
     Route::get('orgId','OrgController@getOrgIdFromName');
     Route::post('setCookie', 'JWTAuthController@setCookie');
     Route::get('viewableLayouts', 'LayoutController@getViewableLayoutList');
+    Route::get('layoutPerms', 'LayoutController@getLayoutPerms');
 
 });

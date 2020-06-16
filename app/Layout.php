@@ -155,6 +155,21 @@ class Layout extends Model
 
     }
 
+    public function getUserPermsForLayout($layoutId, $orgId, $userId){
+        $query = "select groups.description, groups.id, perms.view, perms.author, perms.admin, perms.opt1, perms.opt2, perms.opt3 from groups, perms, users, usergroup, userorg, org ".
+                "where groups.id = perms.group_id ".
+                "and usergroup.group_id = groups.id ".
+                "and usergroup.user_id = users.id ".
+                "and userorg.user_id = users.id ".
+                "and userorg.org_id = org.id ".
+                "and org.id = ? ".
+                "and users.id=? ".
+                "and perms.layout_id = ?";
+
+        $retrievedPerms  =  DB::select($query, [$orgId, $userId, $layoutId]);
+        return $retrievedPerms;
+    }
+
 
 
 

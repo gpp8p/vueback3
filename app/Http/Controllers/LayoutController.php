@@ -90,4 +90,18 @@ class LayoutController extends Controller
         $viewableLayouts = $thisLayout->getViewableLayoutIds($userId, $orgId);
         return json_encode($viewableLayouts);
     }
+
+    public function getLayoutPerms(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $orgId = $inData['orgId'];
+        $layoutId = $inData['layoutId'];
+        $thisLayout = new Layout;
+        $thisUserPerms = $thisLayout->getUserPermsForLayout($layoutId, $orgId, $userId);
+        return $thisUserPerms;
+    }
 }

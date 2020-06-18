@@ -112,11 +112,18 @@ class Layout extends Model
     }
 
     public function editPermForGroup($groupId, $layoutId, $permType, $permValue){
-        DB::table('perms')
-            ->updateOrInsert(
-                ['layout_id' => $layoutId, 'group_id' => $groupId, 'created_at'=>\Carbon\Carbon::now(),'updated_at'=>\Carbon\Carbon::now()],
-                [$permType => $permValue]
-            );
+
+        try {
+            DB::table('perms')
+                ->updateOrInsert(
+                    ['layout_id' => $layoutId, 'group_id' => $groupId],
+                    [$permType => $permValue, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]
+                );
+            return 'ok';
+        } catch (Exception $e) {
+            throw $e;
+        }
+
     }
 
     public function getViewableLayoutIds($userId, $orgId){

@@ -104,4 +104,23 @@ class LayoutController extends Controller
         $thisUserPerms = $thisLayout->getUserPermsForLayout($layoutId, $orgId, $userId);
         return $thisUserPerms;
     }
+    public function setLayoutPerms(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $layoutId = $inData['params']['layoutId'];
+        $groupId = $inData['params']['groupId'];
+        $permType = $inData['params']['permType'];
+        $permValue = $inData['params']['permValue'];
+        $thisLayout = new Layout;
+        try {
+            $thisLayout->editPermForGroup($groupId, $layoutId, $permType, $permValue);
+        } catch (Exception $e) {
+            abort(500, 'Server error: '.$e->getMessage());
+        }
+
+    }
 }

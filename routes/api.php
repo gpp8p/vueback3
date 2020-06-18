@@ -45,5 +45,6 @@ Route::group([
     Route::post('setCookie', 'JWTAuthController@setCookie');
     Route::get('viewableLayouts', 'LayoutController@getViewableLayoutList');
     Route::get('layoutPerms', 'LayoutController@getLayoutPerms');
+    Route::post('setLayoutPerms', 'LayoutController@setLayoutPerms');
 
 });

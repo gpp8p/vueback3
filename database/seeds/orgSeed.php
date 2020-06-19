@@ -24,6 +24,27 @@ class orgSeed extends Seeder
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
+        $thisUserId = DB::table('users')->where('name', 'Shannon User2')->first()->id;
+        DB::table('userorg')->insert([
+            'org_id'=>$thisOrgId,
+            'user_id'=>$thisUserId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'Shannon User3')->first()->id;
+        DB::table('userorg')->insert([
+            'org_id'=>$thisOrgId,
+            'user_id'=>$thisUserId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'GuestUser')->first()->id;
+        DB::table('userorg')->insert([
+            'org_id'=>$thisOrgId,
+            'user_id'=>$thisUserId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
         $thisUserId = DB::table('users')->where('name', 'Billy Budd')->first()->id;
         DB::table('userorg')->insert([
             'org_id'=>$thisOrgId,

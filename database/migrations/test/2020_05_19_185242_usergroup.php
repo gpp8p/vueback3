@@ -18,6 +18,7 @@ class Usergroup extends Migration
             $table->timestamps();
             $table->unsignedBigInteger("group_id");
             $table->unsignedBigInteger("user_id");
+            $table->boolean('is_admin');
         });
     }
 

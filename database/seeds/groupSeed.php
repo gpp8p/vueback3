@@ -11,9 +11,90 @@ class groupSeed extends Seeder
      */
     public function run()
     {
+// setting up All Users
+        $thisGroupId = DB::table('groups')->insertGetId([
+            'group_label'=>'AllUsers',
+            'description'=>'All Users',
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'GuestUser')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'Billy Budd')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'Shirley Skyfall')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'Nancy Normal')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'George Pipkin')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
+        ]);
+
+//      Set up greoup for logged in Shannon Users
+        $thisGroupId = DB::table('groups')->insertGetId([
+            'group_label'=>'ShannonUsers',
+            'description'=>'Shannon Users',
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'Shannon User2')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'Shannon User3')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
+        ]);
+        $thisUserId = DB::table('users')->where('name', 'George Pipkin')->first()->id;
+        DB::table('usergroup')->insert([
+            'user_id'=>$thisUserId,
+            'group_id'=>$thisGroupId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>true
+        ]);
+
+// set up personal group for George Pipkin
         $thisGroupId = DB::table('groups')->insertGetId([
             'group_label'=>'gpp8pvirginia@gmail.com',
-            'description'=>'George Pipkin personal',
+            'description'=>'George Pipkin',
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -22,8 +103,11 @@ class groupSeed extends Seeder
             'user_id'=>$thisUserId,
             'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>true
         ]);
+
+// set up greoup for Roads
         $thisGroupId = DB::table('groups')->insertGetId([
             'group_label'=>'Roads',
             'description'=>'Roads Committee',
@@ -34,8 +118,10 @@ class groupSeed extends Seeder
             'user_id'=>$thisUserId,
             'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>true
         ]);
+// set up group for Finance
         $thisGroupId = DB::table('groups')->insertGetId([
             'group_label'=>'Finance',
             'description'=>'Finance Committee',
@@ -46,7 +132,8 @@ class groupSeed extends Seeder
             'user_id'=>$thisUserId,
             'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>true
         ]);
         $thisUserId = DB::table('users')->where('name', 'Billy Budd')->first()->id;
         DB::table('usergroup')->insert([
@@ -59,14 +146,16 @@ class groupSeed extends Seeder
             'group_label'=>'Communications',
             'description'=>'Communications Committee',
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
         ]);
         $thisUserId = DB::table('users')->where('name', 'Shirley Skyfall')->first()->id;
         DB::table('usergroup')->insert([
             'user_id'=>$thisUserId,
             'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>true
         ]);
         $thisGroupId = DB::table('groups')->insertGetId([
             'group_label'=>'Campaign',
@@ -79,7 +168,8 @@ class groupSeed extends Seeder
            'user_id'=>$thisUserId,
            'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
         ]);
         $thisGroupId = DB::table('groups')->insertGetId([
             'group_label'=>'Building',
@@ -92,15 +182,18 @@ class groupSeed extends Seeder
             'user_id'=>$thisUserId,
             'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>true
         ]);
+/*
         $thisUserId = DB::table('users')->where('name', 'George Pipkin')->first()->id;
         DB::table('usergroup')->insert([
             'user_id'=>$thisUserId,
             'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
-            'updated_at'=>\Carbon\Carbon::now()
+            'updated_at'=>\Carbon\Carbon::now(),
+            'is_admin'=>false
         ]);
-
+*/
     }
 }

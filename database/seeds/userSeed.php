@@ -20,6 +20,22 @@ class userSeed extends Seeder
             'updated_at'=>\Carbon\Carbon::now()
         ]);
         $lastRcd =DB::table('users')->insertGetId([
+            'name'=>    'Shannon User2',
+            'email'=>   'shan2@gmail.com',
+            'password'=> Hash::make('n1tad0g'),
+            'is_admin'=>false,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        $lastRcd =DB::table('users')->insertGetId([
+            'name'=>    'Shannon User3',
+            'email'=>   'shan3@gmail.com',
+            'password'=> Hash::make('n1tad0g'),
+            'is_admin'=>false,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        $lastRcd =DB::table('users')->insertGetId([
             'name'=>    'Billy Budd',
             'email'=>   'budd@gmail.com',
             'password'=> Hash::make('n1tad0g'),

@@ -56,7 +56,7 @@ class groupSeed extends Seeder
             'group_id'=>$thisGroupId,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now(),
-            'is_admin'=>false
+            'is_admin'=>true
         ]);
 
 //      Set up greoup for logged in Shannon Users

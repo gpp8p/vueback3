@@ -38,10 +38,10 @@ class orgSeed extends Seeder
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
-        $thisUserId = DB::table('users')->where('name', 'GuestUser')->first()->id;
+        $guestUserId = DB::table('users')->where('name', 'GuestUser')->first()->id;
         DB::table('userorg')->insert([
             'org_id'=>$thisOrgId,
-            'user_id'=>$thisUserId,
+            'user_id'=>$guestUserId,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -65,6 +65,14 @@ class orgSeed extends Seeder
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
+        DB::table('userorg')->insert([
+            'org_id'=>$thisOrgId,
+            'user_id'=>$guestUserId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+
+
         $thisOrgId = DB::table('org')->insertGetId([
             'org_label'=>'NCDC',
             'description'=>'Nelson County Democratic Committee',
@@ -78,6 +86,13 @@ class orgSeed extends Seeder
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
+        DB::table('userorg')->insert([
+            'org_id'=>$thisOrgId,
+            'user_id'=>$guestUserId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+
         $thisUserId = DB::table('users')->where('name', 'George Pipkin')->first()->id;
         DB::table('userorg')->insert([
             'org_id'=>$thisOrgId,

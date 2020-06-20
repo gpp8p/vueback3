@@ -43,6 +43,13 @@ class OrgController extends Controller
             ]);
         }
     }
+
+    public function getOrgList(Request $request){
+        $thisOrg = new Org();
+        $allOrgs = $thisOrg->all();
+        return json_encode($allOrgs);
+
+    }
     /**
      * Display a listing of the resource.
      *

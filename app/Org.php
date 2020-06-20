@@ -37,4 +37,15 @@ class Org extends Model
             throw new Exception('error - org not found');
         }
     }
+/*
+    public function getOrgList(){
+        $query = "select * from org ";
+        try {
+            $orgList = DB::select($query);
+            return $orgList;
+        } catch (Exception $e) {
+            throw new Exception('error in orgList'.$e->getMessage());
+        }
+    }
+*/
 }

@@ -46,5 +46,6 @@ Route::group([
     Route::get('viewableLayouts', 'LayoutController@getViewableLayoutList');
     Route::get('layoutPerms', 'LayoutController@getLayoutPerms');
     Route::post('setLayoutPerms', 'LayoutController@setLayoutPerms');
+    Route::get('orgList', 'OrgController@getOrgList');
 
 });

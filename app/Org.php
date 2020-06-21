@@ -37,7 +37,7 @@ class Org extends Model
             throw new Exception('error - org not found');
         }
     }
-/*
+
     public function getOrgList(){
         $query = "select * from org ";
         try {
@@ -47,5 +47,15 @@ class Org extends Model
             throw new Exception('error in orgList'.$e->getMessage());
         }
     }
-*/
+
+    public function getOrgUsers($orgId){
+        $query = "select * from userorg, users where users.id = orguser.user_id and orguser.org_id = ?";
+        try {
+            $orgUserList = DB::select($query,[$orgId]);
+            return $orgUserList;
+        } catch (Exception $e) {
+            throw new Exception('error in orgUserList'.$e->getMessage());
+        }
+    }
+
 }

@@ -46,10 +46,22 @@ class OrgController extends Controller
 
     public function getOrgList(Request $request){
         $thisOrg = new Org();
-        $allOrgs = $thisOrg->all();
+        $allOrgs = $thisOrg->getOrgList();
         return json_encode($allOrgs);
 
     }
+
+    public function getOrgUsers(Request $request){
+        $inData = $request->all();
+        $orgId = $inData['orgId'];
+        $thisOrg = new Org();
+        $allOrgUsers = $thisOrg->getOrgUsers($orgId);
+        return json_encode($allOrgUsers);
+
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *

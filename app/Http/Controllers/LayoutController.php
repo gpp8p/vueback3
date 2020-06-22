@@ -123,4 +123,17 @@ class LayoutController extends Controller
         }
 
     }
+
+    public function getOrgLayouts(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $orgId = $inData['orgId'];
+        $thisLayout = new Layout;
+        $thisOrgLayouts = $thisLayout->getOrgLayouts($orgId);
+        return json_encode($thisOrgLayouts);
+    }
 }

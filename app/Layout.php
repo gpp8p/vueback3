@@ -177,6 +177,20 @@ class Layout extends Model
         return $retrievedPerms;
     }
 
+    public function getOrgLayouts($orgId){
+        $query = "select distinct layouts.id, layouts.menu_label, layouts.description from layouts, perms, groups, usergroup, users, userorg, org ".
+                "where layouts.id = perms.layout_id ".
+                "and perms.view=1 ".
+                "and perms.group_id = groups.id ".
+                "and usergroup.group_id = groups.id ".
+                "and usergroup.user_id = users.id ".
+                "and userorg.user_id = users.id ".
+                "and userorg.org_id = ?";
+
+        $retrievedLayouts  =  DB::select($query, [$orgId]);
+        return $retrievedLayouts;
+    }
+
 
 
 

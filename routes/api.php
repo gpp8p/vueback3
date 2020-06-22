@@ -48,5 +48,6 @@ Route::group([
     Route::post('setLayoutPerms', 'LayoutController@setLayoutPerms');
     Route::get('orgList', 'OrgController@getOrgList');
     Route::get('orgUsers', 'OrgController@getOrgUsers');
+    Route::get('orgLayouts', 'OrgController@getOrgLayouts');
 
 });

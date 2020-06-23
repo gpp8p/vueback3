@@ -178,7 +178,7 @@ class Layout extends Model
     }
 
     public function getOrgLayouts($orgId){
-        $query = "select distinct layouts.id, layouts.menu_label, layouts.description from layouts, perms, groups, usergroup, users, userorg, org ".
+        $query = "select distinct layouts.id, layouts.menu_label, layouts.description, layouts.height, layouts.width from layouts, perms, groups, usergroup, users, userorg, org ".
                 "where layouts.id = perms.layout_id ".
                 "and perms.view=1 ".
                 "and perms.group_id = groups.id ".

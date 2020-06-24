@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Org;
 use Illuminate\Http\Request;
+use App\User;
 
 class OrgController extends Controller
 {
@@ -59,6 +60,17 @@ class OrgController extends Controller
         return json_encode($allOrgUsers);
 
     }
+     public function getAllUsers(Request $request){
+         if(auth()->user()==null){
+             abort(401, 'Unauthorized action.');
+         }else{
+             $userId = auth()->user()->id;
+         }
+        $thisUser = new User;
+        $allUsers = $thisUser->getAllUsers();
+         return json_encode($allUsers);
+
+     }
 
 
 

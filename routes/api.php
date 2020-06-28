@@ -50,5 +50,7 @@ Route::group([
     Route::get('orgUsers', 'OrgController@getOrgUsers');
     Route::get('orgLayouts', 'LayoutController@getOrgLayouts');
     Route::get('allUsers', 'OrgController@getAllUsers');
+    Route::post('newOrg', 'OrgController@newOrg');
+
 
 });

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Group;
 use App\Org;
 use Illuminate\Http\Request;
+use App\Layout;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class OrgController extends Controller
 {
@@ -69,6 +72,44 @@ class OrgController extends Controller
         $thisUser = new User;
         $allUsers = $thisUser->getAllUsers();
          return json_encode($allUsers);
+
+     }
+     public function newOrg(Request $request){
+         $inData = $request->all();
+         $name = $inData['name'];
+         $description = $inData['description'];
+         $height = $inData['height'];
+         $width = $inData['width'];
+         $backgroundColor = $inData['backgroundColor'];
+         $adminUserId = $inData['adminUserId'];
+         $adminUserEmail = $inData['adminUserEmail'];
+         $adminUserName = $inData['adminUserName'];
+         $layoutInstance = new Layout;
+         $orgInstance = new Org;
+         DB::beginTransaction();
+         try {
+             $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($name, $height, $width, $description, $backgroundColor);
+             $newOrgId = $orgInstance->createNewOrg($name, $description, $newLayoutId);
+             $orgInstance->addUserToOrg($newOrgId, $adminUserId);
+             $thisGroup = new Group;
+             $up = $thisGroup->returnPersonalGroupId($adminUserId);
+             $newLayoutGroupId = $thisGroup->addNewLayoutGroup($newLayoutId, $name, $description);
+             $thisGroup->addUserToGroup($adminUserId, $newLayoutGroupId);
+             $layoutInstance->editPermForGroup($newLayoutGroupId, $newLayoutId, 'view', 1);
+             $userPersonalGroupId = $up[0]->id;
+             $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'view', 1);
+             $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'author', 1);
+             $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'admin', 1);
+
+             DB::commit();
+             return json_encode($newOrgId);
+         } catch (Exception $e) {
+             DB::rollBack();
+             return response()->json([
+                 'result'=>'error',
+                 'errorDescription'=>$e>getMessage()
+             ]);
+         }
 
      }
 

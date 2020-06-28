@@ -58,4 +58,25 @@ class Org extends Model
         }
     }
 
+    public function createNewOrg($orgName, $orgDescription, $topLayoutId){
+        $thisOrgId = DB::table('org')->insertGetId([
+            'org_label'=>$orgName,
+            'description'=>$orgDescription,
+            'top_layout_id'=>$topLayoutId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        return $thisOrgId;
+
+    }
+
+    public function addUserToOrg($orgId, $userId){
+        DB::table('userorg')->insert([
+            'org_id'=>$orgId,
+            'user_id'=>$userId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+    }
+
 }

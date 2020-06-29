@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Group;
+use App\Org;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements JWTSubject
@@ -64,6 +66,21 @@ class User extends Authenticatable implements JWTSubject
         $query = "select name, email, id from users";
         $allUsers = DB::select($query);
         return $allUsers;
+    }
+
+    public function createUser($userEmail, $userName, $userPassword){
+        $newUserId=DB::table('users')->insertGetId([
+            'name'=>    $userName,
+            'email'=>   $userEmail,
+//           'password'=> Hash::make($userPassword),
+            'password'=> Hash::make('n1tad0g'),
+            'is_admin'=>false,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        return $newUserId;
+
+
     }
 
 }

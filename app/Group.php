@@ -39,7 +39,22 @@ class Group extends Model
         ]);
     }
 
-    public function addNewPersonalGroup($userId, $userName, $userEmail){
+    public function addNewPersonalGroup($userName, $userEmail){
+        $thisGroupId = DB::table('groups')->insertGetId([
+            'group_label'=>$userEmail,
+            'description'=>$userName." personal group",
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
+        return $thisGroupId;
+    }
 
+    public function addOrgToGroup($orgId, $groupId){
+        DB::table('grouporg')->insert([
+            'group_id'=>$groupId,
+            'user_id'=>$orgId,
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+        ]);
     }
 }

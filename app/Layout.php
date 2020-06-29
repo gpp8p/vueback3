@@ -178,14 +178,13 @@ class Layout extends Model
     }
 
     public function getOrgLayouts($orgId){
-        $query = "select distinct layouts.id, layouts.menu_label, layouts.description, layouts.height, layouts.width from layouts, perms, groups, usergroup, users, userorg, org ".
+
+        $query = "select distinct layouts.id, layouts.menu_label, layouts.description, layouts.height, layouts.width from layouts, perms, groups, org, grouporg ".
                 "where layouts.id = perms.layout_id ".
                 "and perms.view=1 ".
                 "and perms.group_id = groups.id ".
-                "and usergroup.group_id = groups.id ".
-                "and usergroup.user_id = users.id ".
-                "and userorg.user_id = users.id ".
-                "and userorg.org_id = ?";
+                "and grouporg.group_id = groups.id ".
+                "and grouporg.org_id = ?";
 
         $retrievedLayouts  =  DB::select($query, [$orgId]);
         return $retrievedLayouts;

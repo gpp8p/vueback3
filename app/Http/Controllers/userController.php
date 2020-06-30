@@ -14,10 +14,9 @@ class userController extends Controller
 
     public function createUser(Request $request){
         $inData = $request->all();
-        $userName = $inData('name');
-        $userEmail = $inData('email');
-        $userPassword = $inData('password');
-        $orgId = $inData['orgId'];
+        $userName = $inData['name'];
+        $userEmail = $inData['email'];
+        $userPassword = $inData['password'];
         $thisUserInstance = new User;
         try {
             try {
@@ -25,12 +24,14 @@ class userController extends Controller
             } catch (Exception $e) {
                 throw $e;
             }
+/*
             $thisOrgInstance = new Org;
             try {
                 $thisOrgInstance->addUserToOrg($orgId, $newUserId);
             } catch (Exception $e) {
                 throw $e;
             }
+*/
             $thisGroupInstance = new Group;
             try {
                 $newPersonalGroupId = $thisGroupInstance->addNewPersonalGroup($userName, $userEmail);
@@ -58,7 +59,9 @@ class userController extends Controller
 */
             return response()->json([
                 'result'=>'ok',
-                'description'=>$userEmail
+                'description'=>$userEmail,
+                'userId'=>$newUserId,
+                'userName'=>$userName
             ]);
         } catch (Exception $e) {
             return response()->json([

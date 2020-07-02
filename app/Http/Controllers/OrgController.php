@@ -40,7 +40,7 @@ class OrgController extends Controller
                 'orgId'=>$thisOrgInfo[0]->id,
                 'result'=>'ok'
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'result'=>'error',
                 'errorDescription'=>$e>getMessage()
@@ -91,56 +91,56 @@ class OrgController extends Controller
              $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($name, $height, $width, $description, $backgroundColor);
              try {
                  $newOrgId = $orgInstance->createNewOrg($name, $description, $newLayoutId);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
              try {
                  $orgInstance->addUserToOrg($newOrgId, $adminUserId);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
              $thisGroup = new Group;
              $up = $thisGroup->returnPersonalGroupId($adminUserId);
-             if($up==null | count($up)==0){
-                 throw new Exception('no personal group');
+             if($up==null){
+                 throw new \Exception('no personal group');
              }
              try {
                  $thisGroup->addOrgToGroup($newOrgId, $up);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
              try {
                  $newLayoutGroupId = $thisGroup->addNewLayoutGroup($newLayoutId, $name, $description);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
              try {
                  $thisGroup->addOrgToGroup($newOrgId, $newLayoutGroupId);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
              try {
                  $thisGroup->addUserToGroup($adminUserId, $newLayoutGroupId);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
              try {
                  $layoutInstance->editPermForGroup($newLayoutGroupId, $newLayoutId, 'view', 1);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
-             $userPersonalGroupId = $up[0]->id;
+             $userPersonalGroupId = $up;
              try {
                  $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'view', 1);
                  $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'author', 1);
                  $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'admin', 1);
-             } catch (Exception $e) {
+             } catch (\Exception $e) {
                  throw $e;
              }
 
              DB::commit();
              return json_encode($newOrgId);
-         } catch (Exception $e) {
+         } catch (\Exception $e) {
              DB::rollBack();
              return response()->json([
                  'result'=>'error',

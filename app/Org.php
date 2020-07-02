@@ -53,7 +53,7 @@ class Org extends Model
         try {
             $orgUserList = DB::select($query,[$orgId]);
             return $orgUserList;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception('error in orgUserList'.$e->getMessage());
         }
     }

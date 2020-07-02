@@ -27,7 +27,7 @@ class Group extends Model
                 "and users.id = ?";
 
         $personalGroupId  =  DB::select($query, [$userId]);
-        return $personalGroupId;
+        return $personalGroupId[0]->id;
     }
 
     public function addUserToGroup($userId, $groupId){
@@ -52,7 +52,7 @@ class Group extends Model
     public function addOrgToGroup($orgId, $groupId){
         DB::table('grouporg')->insert([
             'group_id'=>$groupId,
-            'user_id'=>$orgId,
+            'org_id'=>$orgId,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);

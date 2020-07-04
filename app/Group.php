@@ -57,4 +57,13 @@ class Group extends Model
             'updated_at'=>\Carbon\Carbon::now()
         ]);
     }
+
+    public function getUsersInGroup($groupId){
+        $query = "select users.id, users.name, users.email from users, usergroup ".
+                "where users.id = usergroup.user_id ".
+                "and usergroup.group_id=?";
+        $users  =  DB::select($query, [$groupId]);
+        return $users;
+
+    }
 }

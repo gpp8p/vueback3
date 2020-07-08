@@ -136,4 +136,38 @@ class LayoutController extends Controller
         $thisOrgLayouts = $thisLayout->getOrgLayouts($orgId);
         return json_encode($thisOrgLayouts);
     }
+
+    public function summaryPerms(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $userId = $inData['userId'];
+        $orgId = $inData['orgId'];
+        $layoutId = $inData['layoutId'];
+        $layoutInstance = new Layout;
+        $perms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $layoutId);
+        $returnPerms = array('view'=>false, 'author'=>false, 'admin'=>false, 'opt1'=>false, 'opt2'=>false, 'opt3'=>false);
+        if($perms->viewperms>0){
+            $returnPerms['view']=true;
+        }
+        if($perms->authorperms>0){
+            $returnPerms['author']=true;
+        }
+        if($perms->adminperms>0){
+            $returnPerms['admin']=true;
+        }
+        if($perms->opt1perms>0){
+            $returnPerms['opt1']=true;
+        }
+        if($perms->opt2perms>0){
+            $returnPerms['opt2']=true;
+        }
+        if($perms->opt3perms>0){
+            $returnPerms['opt3']=true;
+        }
+        return json_encode($returnPerms);
+    }
 }

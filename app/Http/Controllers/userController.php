@@ -71,4 +71,14 @@ class userController extends Controller
         }
     }
 
+    public function findUserByEmail(Request $request){
+        $inData = $request->all();
+        $userEmail = $inData['email'];
+
+        $userInstance = new User;
+        $userFound = $userInstance->findUserByEmail($userEmail);
+        return json_encode($userFound);
+
+    }
+
 }

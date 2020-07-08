@@ -190,6 +190,23 @@ class Layout extends Model
         return $retrievedLayouts;
     }
 
+    public function summaryPermsForLayout($userId, $orgId, $layoutId){
+        $query = "select sum(perms.view) as viewperms, sum(perms.author) as authorperms, sum(perms.admin) as adminperms, ".
+            " sum(perms.opt1) as opt1perms, sum(perms.opt2) as opt2perms, sum(perms.opt3) as opt3perms ".
+            "from groups, perms, users, usergroup, userorg, org ".
+            "where groups.id = perms.group_id ".
+            "and usergroup.group_id = groups.id ".
+            "and usergroup.user_id = users.id ".
+            "and userorg.user_id = users.id ".
+            "and userorg.org_id = org.id ".
+            "and org.id = ? ".
+            "and users.id=? ".
+            "and perms.layout_id = 59";
+
+        $retrievedPerms  =  DB::select($query, [$orgId, $userId, $layoutId]);
+        return $retrievedPerms;
+    }
+
 
 
 

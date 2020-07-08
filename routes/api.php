@@ -53,6 +53,8 @@ Route::group([
     Route::post('newOrg', 'OrgController@newOrg');
     Route::post('createUser', 'userController@createUser');
     Route::get('groupMembers', 'GroupsController@getGroupMembers');
+    Route::get('findUser', 'userController@findUserByEmail');
+    Route::get('summaryPerms', 'LayoutController@summaryPerms');
 
 
 });

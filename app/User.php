@@ -84,4 +84,10 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public function findUserByEmail($email){
+        $query = "Select name, email, id, is_admin from users where email = ?";
+        $thisUser = DB::select($query, [$email]);
+        return $thisUser;
+    }
+
 }

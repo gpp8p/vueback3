@@ -48,6 +48,8 @@ class cardInstanceController extends Controller
     public function getLayoutById(Request $request){
         $inData =  $request->all();
         $layoutId = $inData['layoutId'];
+        $orgId = $inData['orgId'];
+        $userId = $inData['userId'];
         $layoutInstance = new Layout;
         $layoutInfo = $layoutInstance->where('id', $layoutId)->get();
         $thisLayoutDescription = $layoutInfo[0]->description;
@@ -105,11 +107,36 @@ class cardInstanceController extends Controller
             );
             array_push($allCardInstances, $thisCardData);
         }
+        $lperms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $layoutId);
+        $thisLayoutPerms = $this->booleanPerms($lperms[0]);
         $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight, 'backgroundColor'=>$thisLayoutBackgroundColor);
-        $returnData = array('cards'=>$allCardInstances, 'layout'=>$layoutProperties);
+        $returnData = array('cards'=>$allCardInstances, 'layout'=>$layoutProperties, 'perms'=>$thisLayoutPerms);
 
         return json_encode($returnData);
     }
+    protected function booleanPerms($perms){
+        $returnPerms = array('view'=>false, 'author'=>false, 'admin'=>false, 'opt1'=>false, 'opt2'=>false, 'opt3'=>false);
+        if($perms->viewperms>0){
+            $returnPerms['view']=true;
+        }
+        if($perms->authorperms>0){
+            $returnPerms['author']=true;
+        }
+        if($perms->adminperms>0){
+            $returnPerms['admin']=true;
+        }
+        if($perms->opt1perms>0){
+            $returnPerms['opt1']=true;
+        }
+        if($perms->opt2perms>0){
+            $returnPerms['opt2']=true;
+        }
+        if($perms->opt3perms>0){
+            $returnPerms['opt3']=true;
+        }
+        return $returnPerms;
+    }
+
     public function saveCardOnly(Request $request){
         $inData =  $request->all();
         $layoutId = $inData['layoutId'];

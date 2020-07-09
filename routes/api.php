@@ -55,6 +55,7 @@ Route::group([
     Route::get('groupMembers', 'GroupsController@getGroupMembers');
     Route::get('findUser', 'userController@findUserByEmail');
     Route::get('summaryPerms', 'LayoutController@summaryPerms');
+    Route::get('getLayout', 'cardInstanceController@getLayoutById');
 
 
 });

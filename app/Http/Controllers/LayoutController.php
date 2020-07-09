@@ -151,4 +151,5 @@ class LayoutController extends Controller
         $returnPerms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $layoutId);
         return json_encode($returnPerms);
     }
+
 }

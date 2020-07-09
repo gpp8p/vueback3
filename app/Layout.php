@@ -207,6 +207,7 @@ class Layout extends Model
         return $this->booleanPerms($retrievedPerms[0]);
     }
 
+
     protected function booleanPerms($perms){
         $returnPerms = array('view'=>false, 'author'=>false, 'admin'=>false, 'opt1'=>false, 'opt2'=>false, 'opt3'=>false);
         if($perms->viewperms>0){

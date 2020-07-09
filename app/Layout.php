@@ -204,7 +204,30 @@ class Layout extends Model
             "and perms.layout_id = 59";
 
         $retrievedPerms  =  DB::select($query, [$orgId, $userId, $layoutId]);
-        return $retrievedPerms;
+        return $this->booleanPerms($retrievedPerms[0]);
+    }
+
+    protected function booleanPerms($perms){
+        $returnPerms = array('view'=>false, 'author'=>false, 'admin'=>false, 'opt1'=>false, 'opt2'=>false, 'opt3'=>false);
+        if($perms->viewperms>0){
+            $returnPerms['view']=true;
+        }
+        if($perms->authorperms>0){
+            $returnPerms['author']=true;
+        }
+        if($perms->adminperms>0){
+            $returnPerms['admin']=true;
+        }
+        if($perms->opt1perms>0){
+            $returnPerms['opt1']=true;
+        }
+        if($perms->opt2perms>0){
+            $returnPerms['opt2']=true;
+        }
+        if($perms->opt3perms>0){
+            $returnPerms['opt3']=true;
+        }
+        return $returnPerms;
     }
 
 

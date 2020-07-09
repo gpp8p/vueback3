@@ -31,14 +31,24 @@ class OrgController extends Controller
     public function getOrgHomeFromName(Request $request){
         $inData = $request->all();
         $orgName = $inData['orgName'];
+        $userId = $inData['userId'];
         $thisOrg = new Org();
         try {
             $thisOrgInfo = $thisOrg->getOrgHome($orgName);
-
+        } catch (\Exception $e) {
+            return response()->json([
+                'result'=>'error',
+                'errorDescription'=>$e>getMessage()
+            ]);
+        }
+        $thisLayout = new Layout;
+        try {
+            $layoutPerms = $thisLayout->summaryPermsForLayout($userId, $thisOrgInfo[0]->id, $thisOrgInfo[0]->top_layout_id);
             return response()->json([
                 'orgHome'=>$thisOrgInfo[0]->top_layout_id,
                 'orgId'=>$thisOrgInfo[0]->id,
-                'result'=>'ok'
+                'perms'=>$layoutPerms,
+                'result'=>'ok',
             ]);
         } catch (\Exception $e) {
             return response()->json([

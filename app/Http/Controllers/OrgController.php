@@ -58,7 +58,7 @@ class OrgController extends Controller
         }
     }
 
-    
+
     public function getOrgList(Request $request){
         $thisOrg = new Org();
         $allOrgs = $thisOrg->getOrgList();

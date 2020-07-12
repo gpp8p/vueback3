@@ -66,4 +66,13 @@ class Group extends Model
         return $users;
 
     }
+
+    public function getOrganizationGroups($orgId){
+
+        $query = "select group_label, description, groups.id from groups, grouporg ".
+                "where grouporg.group_id = groups.id ".
+                "and grouporg.org_id = ?";
+        $groups  =  DB::select($query, [$orgId]);
+        return $groups;
+    }
 }

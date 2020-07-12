@@ -19,4 +19,17 @@ class GroupsController extends Controller
         $members = $groupInstance->getUsersInGroup($thisGroupId[0]);
         return json_encode($members);
     }
+
+    public function getOrgGroups(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $thisOrgId = $inData['orgId'];
+        $groupInstance = new Group;
+        $groups = $groupInstance->getOrganizationGroups($thisOrgId);
+        return json_encode($groups);
+    }
 }

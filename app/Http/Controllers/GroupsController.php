@@ -28,8 +28,9 @@ class GroupsController extends Controller
         }
         $inData =  $request->all();
         $thisOrgId = $inData['orgId'];
+        $thisLayoutId = $inData['layoutId'];
         $groupInstance = new Group;
-        $groups = $groupInstance->getOrganizationGroups($thisOrgId);
+        $groups = $groupInstance->getOrganizationGroups($thisOrgId, $userId, $thisLayoutId);
         return json_encode($groups);
     }
 }

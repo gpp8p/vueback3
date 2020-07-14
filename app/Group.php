@@ -67,12 +67,29 @@ class Group extends Model
 
     }
 
-    public function getOrganizationGroups($orgId){
-
+    public function getOrganizationGroups($orgId, $userId, $layoutId){
+/*
         $query = "select group_label, description, groups.id from groups, grouporg ".
                 "where grouporg.group_id = groups.id ".
                 "and grouporg.org_id = ?";
-        $groups  =  DB::select($query, [$orgId]);
+*/
+        $query = "select group_label, description, groups.id from groups, grouporg ".
+            "where grouporg.group_id = groups.id ".
+            "and grouporg.org_id = ? ".
+            "and groups.id NOT IN ( ".
+            "select groups.id ".
+            "from groups, perms, users, usergroup, userorg, org ".
+            "where groups.id = perms.group_id ".
+            "and usergroup.group_id = groups.id  ".
+            "and usergroup.user_id = users.id ".
+            "and userorg.user_id = users.id ".
+            "and userorg.org_id = org.id ".
+            "and org.id = ? ".
+            "and users.id=? ".
+            "and perms.layout_id = ? ".
+            ")";
+
+        $groups  =  DB::select($query, [$orgId, $orgId, $userId, $layoutId]);
         return $groups;
     }
 }

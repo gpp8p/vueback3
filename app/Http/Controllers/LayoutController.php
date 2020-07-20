@@ -53,11 +53,11 @@ class LayoutController extends Controller
         $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription, $layoutBackgroundColor);
 
         $thisGroup = new Group;
-        $up = $thisGroup->returnPersonalGroupId($userId);
+        $personalGroupId = $thisGroup->returnPersonalGroupId($userId);
         $newLayoutGroupId = $thisGroup->addNewLayoutGroup($newLayoutId, $layoutName, $layoutDescription);
         $thisGroup->addUserToGroup($userId, $newLayoutGroupId);
         $layoutInstance->editPermForGroup($newLayoutGroupId, $newLayoutId, 'view', 1);
-        $userPersonalGroupId = $up[0]->id;
+        $userPersonalGroupId = $personalGroupId;
         $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'view', 1);
         $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'author', 1);
         $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'admin', 1);

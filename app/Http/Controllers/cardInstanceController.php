@@ -61,7 +61,8 @@ class cardInstanceController extends Controller
         $thisLayoutCardInstances = $thisCardInstance->getLayoutCardInstancesById($layoutId);
         if($thisLayoutCardInstances==null){
             $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight, 'backgroundColor'=>$thisLayoutBackgroundColor);
-            $returnData = array('cards'=>[], 'layout'=>$layoutProperties);
+            $thisLayoutPerms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $layoutId);
+            $returnData = array('cards'=>[], 'layout'=>$layoutProperties, 'perms'=>$thisLayoutPerms);
             return json_encode($returnData);
         }
         $cardsReadIn = array();

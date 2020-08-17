@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\Request;
 use App\User;
+use App\Org;
 use Response;
 
 class JWTAuthController extends Controller
@@ -71,7 +72,11 @@ class JWTAuthController extends Controller
         $thisUserId =auth()->user()->id;
         $thisUserIsAdmin = auth()->user()->is_admin;
 
-        return Response::json(array('userName'=>$thisUserName, 'userId'=>$thisUserId, 'is_admin'=>$thisUserIsAdmin, 'access_token' => $token, 'token_type' => 'bearer', 'expires_in' => auth()->factory()->getTTL() * 60));
+        $defaultOrg = $inData['default_org'];
+        $thisOrgInstance = new Org;
+        $orgInfo = $thisOrgInstance->getOrgHome($defaultOrg);
+
+        return Response::json(array('userName'=>$thisUserName, 'orgId'=>$orgInfo[0]->id, 'orgHome'=>$orgInfo[0]->top_layout_id, 'userId'=>$thisUserId, 'is_admin'=>$thisUserIsAdmin, 'access_token' => $token, 'token_type' => 'bearer', 'expires_in' => auth()->factory()->getTTL() * 60));
 
 //        return response($newToken);
     }

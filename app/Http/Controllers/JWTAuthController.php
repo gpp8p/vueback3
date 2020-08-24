@@ -75,9 +75,12 @@ class JWTAuthController extends Controller
         $defaultOrg = $inData['default_org'];
         $thisOrgInstance = new Org;
         $orgInfo = $thisOrgInstance->getOrgHome($defaultOrg);
-
-        return Response::json(array('userName'=>$thisUserName, 'orgId'=>$orgInfo[0]->id, 'orgHome'=>$orgInfo[0]->top_layout_id, 'userId'=>$thisUserId, 'is_admin'=>$thisUserIsAdmin, 'access_token' => $token, 'token_type' => 'bearer', 'expires_in' => auth()->factory()->getTTL() * 60));
-
+        if(count($orgInfo)>0){
+            return Response::json(array('resultType'=>'Ok', 'userName'=>$thisUserName, 'orgId'=>$orgInfo[0]->id, 'orgHome'=>$orgInfo[0]->top_layout_id, 'userId'=>$thisUserId, 'is_admin'=>$thisUserIsAdmin, 'access_token' => $token, 'token_type' => 'bearer', 'expires_in' => auth()->factory()->getTTL() * 60));
+        }else{
+            $noOrgMsg = $defaultOrg.' not known';
+            return Response::json(array('resultType'=>$noOrgMsg));
+        }
 //        return response($newToken);
     }
 

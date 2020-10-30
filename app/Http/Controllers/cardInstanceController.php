@@ -131,7 +131,8 @@ class cardInstanceController extends Controller
         $cardWidth = ($bottomRightCol-$topLeftCol)+1;
         $cardHeight = ($bottomRightRow-$topLeftRow)+1;
         $thisCardInstance->createCardInstance($layoutId, $cardParams, $topLeftRow,$topLeftCol, $cardHeight, $cardWidth,$cardType);
-        return $this->getLayoutById($request);
+ //       return $this->getLayoutById($request);
+        return "ok";
 
     }
 

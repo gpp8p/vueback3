@@ -79,16 +79,16 @@ class LayoutController extends Controller
         return json_encode($allLayouts);
     }
     public function getMySpaces(Request $request){
-/*
+
         if(auth()->user()==null){
             abort(401, 'Unauthorized action.');
         }else{
             $userId = auth()->user()->id;
         }
-*/
+
         $inData =  $request->all();
         $orgId = $inData['orgId'];
-        $userId = $inData['userId'];
+//        $userId = $inData['userId'];
         $thisLayout = new Layout;
         $viewableLayouts = $thisLayout->getViewableLayoutIds($userId, $orgId);
         return json_encode($viewableLayouts);

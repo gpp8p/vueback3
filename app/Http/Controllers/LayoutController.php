@@ -45,12 +45,20 @@ class LayoutController extends Controller
         $layoutName = $inData['name'];
         $layoutHeight = $inData['height'];
         $layoutWidth = $inData['width'];
-        $layoutBackgroundColor = $inData['backgroundColor'];
+
         $layoutDescription = $inData['description'];
         $userId = $inData['userId'];
         $orgId = $inData['orgId'];
+        $backgroundType = $inData['backgroundType'];
+        if($inData['backgroundType']=='I'){
+            $backgroundImage = $inData['backgroundImage'];
+            $layoutBackgroundColor = '';
+        }else{
+            $backgroundImage = '';
+            $layoutBackgroundColor = $inData['backgroundColor'];
+        }
         $layoutInstance = new Layout;
-        $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription, $layoutBackgroundColor);
+        $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($layoutName, $layoutHeight, $layoutWidth, $layoutDescription, $layoutBackgroundColor, $backgroundImage, $backgroundType);
 
         $thisGroup = new Group;
         $personalGroupId = $thisGroup->returnPersonalGroupId($userId);

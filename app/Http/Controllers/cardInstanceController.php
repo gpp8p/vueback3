@@ -56,6 +56,8 @@ class cardInstanceController extends Controller
         $thisLayoutWidth = $layoutInfo[0]->width;
         $thisLayoutHeight = $layoutInfo[0]->height;
         $thisLayoutBackgroundColor = $layoutInfo[0]->backgroundColor;
+        $thisLayoutImageUrl=$layoutInfo[0]->backgrounUrl;
+        $thisLayoutBackgroundType=$layoutInfo[0]->backgroundType;
         $thisLayoutLabel = $layoutInfo[0]->menu_label;
         $thisCardInstance = new CardInstances;
         $thisLayoutCardInstances = $thisCardInstance->getLayoutCardInstancesById($layoutId);
@@ -109,7 +111,7 @@ class cardInstanceController extends Controller
             array_push($allCardInstances, $thisCardData);
         }
         $thisLayoutPerms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $layoutId);
-        $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight, 'backgroundColor'=>$thisLayoutBackgroundColor);
+        $layoutProperties =array('description'=>$thisLayoutDescription, 'menu_label'=>$thisLayoutLabel, 'height'=>$thisLayoutHeight, 'width'=>$thisLayoutHeight, 'backgroundColor'=>$thisLayoutBackgroundColor, 'backGroundImageUrl'=>$thisLayoutImageUrl, 'backgroundType'=>$thisLayoutBackgroundType);
         $returnData = array('cards'=>$allCardInstances, 'layout'=>$layoutProperties, 'perms'=>$thisLayoutPerms);
 
         return json_encode($returnData);

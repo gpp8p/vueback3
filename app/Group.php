@@ -59,12 +59,18 @@ class Group extends Model
     }
 
     public function getUsersInGroup($groupId){
-        $query = "select users.id, users.name, users.email from users, usergroup ".
+        $query = "select users.id, users.name, users.email, usergroup.is_admin from users, usergroup ".
                 "where users.id = usergroup.user_id ".
                 "and usergroup.group_id=?";
         $users  =  DB::select($query, [$groupId]);
         return $users;
 
+    }
+
+    public function getGroupInfo($groupId){
+        $query = "select group_label, description from groups where id = ?";
+        $groupInfo = DB::select($query, [$groupId]);
+        return $groupInfo;
     }
 
     public function getOrganizationGroups($orgId, $userId, $layoutId){

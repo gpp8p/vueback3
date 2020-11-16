@@ -16,8 +16,13 @@ class GroupsController extends Controller
         $inData =  $request->all();
         $thisGroupId = $inData['groupId'];
         $groupInstance = new Group;
-        $members = $groupInstance->getUsersInGroup($thisGroupId[0]);
-        return json_encode($members);
+        $members = $groupInstance->getUsersInGroup($thisGroupId);
+        $groupInfo = $groupInstance->getGroupInfo($thisGroupId);
+        $groupAdmin=FALSE;
+        foreach($members as $thisMember){
+            if($thisMember->id==$userId && $thisMember->is_admin==1) $groupAdmin=TRUE;
+        }
+        return json_encode(['members'=>$members, 'groupAdmin'=>$groupAdmin, 'groupDescription'=>$groupInfo[0]->description]);
     }
 
     public function getOrgGroups(Request $request){

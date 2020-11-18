@@ -6,6 +6,7 @@ use App\Layout;
 use Illuminate\Http\Request;
 use App\CardInstances;
 use App\Group;
+use App\Org;
 
 class LayoutController extends Controller
 {
@@ -63,7 +64,7 @@ class LayoutController extends Controller
         $thisGroup = new Group;
         $personalGroupId = $thisGroup->returnPersonalGroupId($userId);
         $newLayoutGroupId = $thisGroup->addNewLayoutGroup($newLayoutId, $layoutName, $layoutDescription);
-        $thisGroup->addUserToGroup($userId, $newLayoutGroupId);
+        $thisGroup->addOrgToGroup($orgId, $newLayoutGroupId);
         $layoutInstance->editPermForGroup($newLayoutGroupId, $newLayoutId, 'view', 1);
         $userPersonalGroupId = $personalGroupId;
         $layoutInstance->editPermForGroup($userPersonalGroupId, $newLayoutId, 'view', 1);

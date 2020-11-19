@@ -58,6 +58,7 @@ Route::group([
     Route::get('summaryPerms', 'LayoutController@summaryPerms');
     Route::get('getLayout', 'cardInstanceController@getLayoutById');
     Route::get('orgGroups', 'GroupsController@getOrgGroups');
+    Route::post('addAccess', 'LayoutController@addAccessForGroupToLayout');
 
 
 });

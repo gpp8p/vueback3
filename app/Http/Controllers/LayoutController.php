@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\CardInstances;
 use App\Group;
 use App\Org;
+use Illuminate\Support\Facades\DB;
 
 class LayoutController extends Controller
 {
@@ -73,6 +74,30 @@ class LayoutController extends Controller
 
         return json_encode($newLayoutId);
 
+    }
+
+    public function addAccessForGroupToLayout($request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $orgId = $inData['orgId'];
+        $groupId = $inData['groupId'];
+        $layoutId = $inData['layoutId'];
+        $thisGroup = new Group;
+        $layoutInstance = new Layout;
+        DB:beginTransaction();
+        try {
+            $thisGroup->addOrgToGroup($orgId, $groupId);
+            $layoutInstance->editPermForGroup($groupId, $layoutId, 'view', 1);
+            DB::commit();
+        }catch (Throwable $e) {
+            DB::rollback();
+            abort(500, 'Server error: '.$e->getMessage());
+        }
+        return "ok";
     }
 
     public function getLayoutList(Request $request){

@@ -76,21 +76,21 @@ class LayoutController extends Controller
 
     }
 
-    public function addAccessForGroupToLayout($request){
+    public function addAccessForGroupToLayout(Request $request){
         if(auth()->user()==null){
             abort(401, 'Unauthorized action.');
         }else{
             $userId = auth()->user()->id;
         }
         $inData =  $request->all();
-        $orgId = $inData['orgId'];
-        $groupId = $inData['groupId'];
-        $layoutId = $inData['layoutId'];
+        $orgId = $inData['params']['orgId'];
+        $groupId = $inData['params']['groupId'];
+        $layoutId = $inData['params']['layoutId'];
         $thisGroup = new Group;
         $layoutInstance = new Layout;
-        DB:beginTransaction();
+        DB::beginTransaction();
         try {
-            $thisGroup->addOrgToGroup($orgId, $groupId);
+//            $thisGroup->addOrgToGroup($orgId, $groupId);
             $layoutInstance->editPermForGroup($groupId, $layoutId, 'view', 1);
             DB::commit();
         }catch (Throwable $e) {
@@ -98,6 +98,30 @@ class LayoutController extends Controller
             abort(500, 'Server error: '.$e->getMessage());
         }
         return "ok";
+    }
+
+    public function removePerm(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $groupId = $inData['params']['groupId'];
+        $layoutId = $inData['params']['layoutId'];
+        $layoutInstance = new Layout;
+        try {
+            $layoutInstance->removePermForGroup($layoutId, $groupId);
+            return "ok";
+        }catch (Throwable $e) {
+            abort(500, 'Server error: '.$e->getMessage());
+        }
+
+    }
+
+    public function test($request){
+        $inData =  $request->all();
+        return 'ok';
     }
 
     public function getLayoutList(Request $request){

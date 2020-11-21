@@ -38,4 +38,5 @@ class GroupsController extends Controller
         $groups = $groupInstance->getOrganizationGroups($thisOrgId, $userId, $thisLayoutId);
         return json_encode($groups);
     }
+
 }

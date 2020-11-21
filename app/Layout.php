@@ -128,6 +128,15 @@ class Layout extends Model
 
     }
 
+    public function removePermForGroup($layoutId, $groupId){
+        $query = "delete from perms where group_id = ? and layout_id=?";
+        try {
+            $deletedPerms  =  DB::select($query, [$groupId, $layoutId]);
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
     public function getViewableLayoutIds($userId, $orgId){
 
         $query = "select distinct layouts.description, layouts.id, layouts.menu_label, layouts.height, layouts.width from layouts, perms where layouts.id in ( ".
@@ -165,6 +174,7 @@ class Layout extends Model
     }
 
     public function getUserPermsForLayout($layoutId, $orgId, $userId){
+/*
         $query = "select groups.description, groups.id, perms.view, perms.author, perms.admin, perms.opt1, perms.opt2, perms.opt3 from groups, perms, users, usergroup, userorg, org ".
                 "where groups.id = perms.group_id ".
                 "and usergroup.group_id = groups.id ".
@@ -174,8 +184,14 @@ class Layout extends Model
                 "and org.id = ? ".
                 "and users.id=? ".
                 "and perms.layout_id = ?";
+*/
+        $query = "select groups.description, groups.id, perms.view, perms.author, perms.admin, perms.opt1, perms.opt2, perms.opt3 from groups,  perms ".
+                "where groups.id = perms.group_id ".
+                "and perms.layout_id = ?";
 
-        $retrievedPerms  =  DB::select($query, [$orgId, $userId, $layoutId]);
+
+//        $retrievedPerms  =  DB::select($query, [$orgId, $userId, $layoutId]);
+        $retrievedPerms  =  DB::select($query, [$layoutId]);
         return $retrievedPerms;
     }
 

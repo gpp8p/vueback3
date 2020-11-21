@@ -58,7 +58,9 @@ Route::group([
     Route::get('summaryPerms', 'LayoutController@summaryPerms');
     Route::get('getLayout', 'cardInstanceController@getLayoutById');
     Route::get('orgGroups', 'GroupsController@getOrgGroups');
+    Route::get('test', 'LayoutController@test');
     Route::post('addAccess', 'LayoutController@addAccessForGroupToLayout');
+    Route::post('removePerm', 'LayoutController@removePerm');
 
 
 });

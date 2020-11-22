@@ -58,6 +58,21 @@ class Org extends Model
         }
     }
 
+    public function getAvailableOrgUsers($groupId, $orgId){
+        $query="select users.id, users.name, users.email from userorg, users ".
+            "where users.id = userorg.user_id ".
+            "and userorg.org_id = ? ".
+            "and users.id NOT IN ( ".
+	        "select users.id from users, usergroup where users.id = usergroup.user_id and usergroup.group_id=? ".
+            ")  ";
+        try {
+            $orgUserList = DB::select($query,[$orgId, $groupId]);
+            return $orgUserList;
+        } catch (\Exception $e) {
+            throw new Exception('error in orgUserList'.$e->getMessage());
+        }
+    }
+
     public function createNewOrg($orgName, $orgDescription, $topLayoutId){
         $thisOrgId = DB::table('org')->insertGetId([
             'org_label'=>$orgName,

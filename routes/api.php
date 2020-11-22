@@ -62,6 +62,7 @@ Route::group([
     Route::get('test', 'LayoutController@test');
     Route::post('addAccess', 'LayoutController@addAccessForGroupToLayout');
     Route::post('removePerm', 'LayoutController@removePerm');
+    Route::post('addUserToGroup', 'GroupsController@addUserToGroup');
 
 
 });

@@ -39,4 +39,21 @@ class GroupsController extends Controller
         return json_encode($groups);
     }
 
+    public function addUserToGroup(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }else{
+            $userId = auth()->user()->id;
+        }
+        $inData =  $request->all();
+        $groupId = $inData['params']['groupId'];
+        $selectedUserId = $inData['params']['selectedUserId'][0];
+        $groupInstance = new Group;
+        try {
+            $groupInstance->addUserToGroup($selectedUserId, $groupId);
+            return "ok";
+        }catch (Throwable $e) {
+            abort(500, 'Server error: '.$e->getMessage());
+        }
+    }
 }

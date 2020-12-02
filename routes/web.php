@@ -33,6 +33,7 @@ Route::get('/csrfTest', 'cardInstanceController@getCsrf')->name('csrfTest');
 Route::post('postCsrf', 'cardInstanceController@postCsrf')->name('postCsrf');
 //Route::get('/serveTest', 'cardInstanceController@serveTest')->name('serveTest');
 Route::get('/layoutList', 'LayoutController@getLayoutList')->name('layoutList');
+
 header('Access-Control-Allow-Origin:  *');
 header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, X-CSRF-TOKEN, X-Requested-With, Authorization');

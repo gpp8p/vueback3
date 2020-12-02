@@ -90,4 +90,15 @@ class User extends Authenticatable implements JWTSubject
         return $thisUser;
     }
 
+    public function checkUserOrgMembership($email){
+        $query="select users.id as userId, org.id as orgId, org.description from users, userorg, org ".
+                "where users.id = userorg.user_id ".
+                "and org.id=userorg.org_id ".
+                "and users.email=?";
+
+
+        $thisUserInfo = DB::select($query, [$email]);
+        return $thisUserInfo;
+    }
+
 }

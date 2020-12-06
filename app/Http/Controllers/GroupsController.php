@@ -47,7 +47,7 @@ class GroupsController extends Controller
         }
         $inData =  $request->all();
         $groupId = $inData['params']['groupId'];
-        $selectedUserId = $inData['params']['selectedUserId'][0];
+        $selectedUserId = $inData['params']['selectedUserId'];
         $groupInstance = new Group;
         try {
             $groupInstance->addUserToGroup($selectedUserId, $groupId);

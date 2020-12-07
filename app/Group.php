@@ -39,6 +39,13 @@ class Group extends Model
         ]);
     }
 
+    public function removeUserFromGroup($userId, $groupId){
+        $query = "delete from usergroup where group_id = ? and user_id = ?";
+        $queryResult = DB::select($query, [$groupId, $userId]);
+        return;
+
+    }
+
     public function addNewPersonalGroup($userName, $userEmail){
         $thisGroupId = DB::table('groups')->insertGetId([
             'group_label'=>$userEmail,

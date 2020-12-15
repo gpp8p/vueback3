@@ -49,7 +49,8 @@ class Org extends Model
     }
 
     public function getOrgUsers($orgId){
-        $query = "select * from userorg, users where users.id = userorg.user_id and userorg.org_id = ?";
+//        $query = "select * from userorg, users where users.id = userorg.user_id and userorg.org_id = ?";
+        $query = "select users.id, users.name, users.email from userorg, users where users.id = userorg.user_id and userorg.org_id = ?";
         try {
             $orgUserList = DB::select($query,[$orgId]);
             return $orgUserList;

@@ -75,7 +75,7 @@ class userController extends Controller
             DB::commit();
             return response()->json([
                 'result' => 'ok',
-                'description' => $userEmail,
+                'email' => $userEmail,
                 'userId' => $newUserId,
                 'userName' => $userName
             ]);

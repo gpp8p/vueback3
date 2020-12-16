@@ -86,6 +86,22 @@ class userController extends Controller
 
 
     }
+    public function checkUserExists(Request $request){
+        $inData = $request->all();
+        $userEmail = $inData['email'];
+        $thisUserInstance = new User;
+        try {
+            $thisUser = $thisUserInstance->findUserByEmail($userEmail);
+            If(count($thisUser)>0){
+                return 'true';
+            }else{
+                return 'false';
+            }
+        } catch (\Exception $e) {
+            abort(500, 'Server error checking user email: '.$e->getMessage());
+        }
+
+    }
     public function createUser(Request $request){
         $inData = $request->all();
         $userName = $inData['name'];

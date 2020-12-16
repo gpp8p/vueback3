@@ -65,6 +65,7 @@ Route::group([
     Route::post('addUserToGroup', 'GroupsController@addUserToGroup');
     Route::post('setupNewUser', 'UserController@setupNewUser');
     Route::post('removeUserFromGroup', 'GroupsController@removeUserFromGroup');
+    Route::get('userExists', 'UserController@checkUserExists');
 
 
 });

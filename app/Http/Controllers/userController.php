@@ -93,10 +93,11 @@ class userController extends Controller
         try {
             $thisUser = $thisUserInstance->findUserByEmail($userEmail);
             If(count($thisUser)>0){
-                return 'true';
+                $returnData = array('result'=>true, 'name'=>$thisUser[0]->name, 'email'=>$thisUser[0]->email, 'id'=>$thisUser[0]->id, 'is_admin'=>$thisUser[0]->is_admin);
             }else{
-                return 'false';
+                $returnData = array('result'=>false);
             }
+            return json_encode($returnData);
         } catch (\Exception $e) {
             abort(500, 'Server error checking user email: '.$e->getMessage());
         }

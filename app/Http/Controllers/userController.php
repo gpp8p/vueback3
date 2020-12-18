@@ -18,6 +18,17 @@ class userController extends Controller
         $userPassword = $inData['params']['password'];
         $userOrg = $inData['params']['org'];
         $thisUserInstance = new User;
+        try {
+            $existingUser = $thisUserInstance->checkUserOrgMembership($userEmail);
+        } catch (\Exception $e) {
+            abort(500, 'Server error looking up user: '.$e->getMessage());
+        }
+        if(count($existingUser)>0){
+            $returnData = $returnData = array('result'=>'userFound', 'userName'=>$userName, 'userEmail'=>$userEmail, 'userId'=>$existingUser->userId);
+            return json_encode($returnData);
+
+        }
+
 /*
         try {
             $existingUser = $thisUserInstance->checkUserOrgMembership($userEmail);

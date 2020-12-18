@@ -18,6 +18,7 @@ class userController extends Controller
         $userPassword = $inData['params']['password'];
         $userOrg = $inData['params']['org'];
         $thisUserInstance = new User;
+/*
         try {
             $existingUser = $thisUserInstance->checkUserOrgMembership($userEmail);
         } catch (\Exception $e) {
@@ -39,6 +40,7 @@ class userController extends Controller
                 abort(500, 'Server error adding user to org: '.$e->getMessage());
             }
         }
+*/
         $newUserId=null;
         DB::beginTransaction();
         try {

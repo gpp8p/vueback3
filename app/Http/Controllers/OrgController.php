@@ -96,19 +96,26 @@ class OrgController extends Controller
      }
      public function newOrg(Request $request){
          $inData = $request->all();
-         $name = $inData['name'];
-         $description = $inData['description'];
-         $height = $inData['height'];
-         $width = $inData['width'];
-         $backgroundColor = $inData['backgroundColor'];
-         $adminUserId = $inData['adminUserId'];
-         $adminUserEmail = $inData['adminUserEmail'];
-         $adminUserName = $inData['adminUserName'];
+         $name = $inData['params']['name'];
+         $description = $inData['params']['description'];
+         $height = $inData['params']['height'];
+         $width = $inData['params']['width'];
+         $backgroundColor = $inData['params']['backgroundColor'];
+         $adminUserId = $inData['params']['adminUserId'];
+         $adminUserEmail = $inData['params']['adminUserEmail'];
+         $adminUserName = $inData['params']['adminUserName'];
+         $backgroundType = $inData['params']['backgroundType'];
+         if($backgroundType=='I'){
+             $backgroundColor = '';
+             $backgroundImage = $inData['params']['backgroundImage'];
+         }else{
+             $backgroundImage = '';
+         }
          $layoutInstance = new Layout;
          $orgInstance = new Org;
          DB::beginTransaction();
          try {
-             $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($name, $height, $width, $description, $backgroundColor);
+             $newLayoutId = $layoutInstance->createLayoutWithoutBlanks($name, $height, $width, $description, $backgroundColor, $backgroundImage, $backgroundType);
              try {
                  $newOrgId = $orgInstance->createNewOrg($name, $description, $newLayoutId);
              } catch (\Exception $e) {

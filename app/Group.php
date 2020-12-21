@@ -29,6 +29,12 @@ class Group extends Model
         $personalGroupId  =  DB::select($query, [$userId]);
         return $personalGroupId[0]->id;
     }
+    public function returnAllUserGroupId(){
+        $query = "select id from groups where group_label = 'AllUsers'";
+        $allUserGroupId = DB::select($query);
+        return $allUserGroupId[0]->id;
+
+    }
 
     public function addUserToGroup($userId, $groupId){
         DB::table('usergroup')->insert([

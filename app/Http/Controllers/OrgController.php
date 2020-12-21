@@ -132,6 +132,14 @@ class OrgController extends Controller
                  throw new \Exception('no personal group');
              }
              try {
+                 $allUserGroupId = $thisGroup->returnAllUserGroupId();
+             } catch (\Exception $e) {
+                 throw new \Exception('error identifying all user group');
+             }
+             if($allUserGroupId==null){
+                 throw new \Exception('no all user group');
+             }
+             try {
                  $thisGroup->addOrgToGroup($newOrgId, $up);
              } catch (\Exception $e) {
                  throw $e;
@@ -147,12 +155,23 @@ class OrgController extends Controller
                  throw $e;
              }
              try {
+                 $thisGroup->addOrgToGroup($newOrgId, $allUserGroupId);
+             } catch (\Exception $e) {
+                 throw $e;
+             }
+
+             try {
                  $thisGroup->addUserToGroup($adminUserId, $newLayoutGroupId);
              } catch (\Exception $e) {
                  throw $e;
              }
              try {
                  $layoutInstance->editPermForGroup($newLayoutGroupId, $newLayoutId, 'view', 1);
+             } catch (\Exception $e) {
+                 throw $e;
+             }
+             try {
+                 $layoutInstance->editPermForGroup($allUserGroupId, $newLayoutId, 'view', 1);
              } catch (\Exception $e) {
                  throw $e;
              }

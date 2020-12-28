@@ -94,6 +94,30 @@ class OrgController extends Controller
          return json_encode($allUsers);
 
      }
+     public function userOrgPerms(Request $request){
+         $inData = $request->all();
+         $orgId = $inData['orgId'];
+         if(auth()->user()==null){
+             abort(401, 'Unauthorized action.');
+         }else{
+             $userId = auth()->user()->id;
+         }
+         $thisOrg = new Org();
+         try {
+             $orgHome = $thisOrg->getOrgHomeFromOrgId($orgId);
+         } catch (\Exception $e) {
+             abort(500, 'Error looking up organization home');
+         }
+         $layoutInstance = new Layout;
+         try {
+             $thisLayoutPerms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $orgHome->top_layout_id);
+         } catch (\Exception $e) {
+             abort(500, 'Error getting admin perms for organization home');
+         }
+         return json_encode($thisLayoutPerms);
+
+
+     }
      public function newOrg(Request $request){
          $inData = $request->all();
          $name = $inData['params']['name'];

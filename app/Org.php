@@ -38,6 +38,16 @@ class Org extends Model
         }
     }
 
+    public function getOrgHomeFromOrgId($orgId){
+        $query = "select top_layout_id from org where org.id = ?";
+        try {
+            $orgInfo = DB::select($query, [$orgId]);
+            return $orgInfo;
+        } catch (Exception $e) {
+            throw new Exception('error - org not found');
+        }
+    }
+
     public function getOrgList(){
         $query = "select * from org ";
         try {

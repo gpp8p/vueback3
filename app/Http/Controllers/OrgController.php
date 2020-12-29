@@ -110,7 +110,7 @@ class OrgController extends Controller
          }
          $layoutInstance = new Layout;
          try {
-             $thisLayoutPerms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $orgHome->top_layout_id);
+             $thisLayoutPerms = $layoutInstance->summaryPermsForLayout($userId, $orgId, $orgHome[0]->top_layout_id);
          } catch (\Exception $e) {
              abort(500, 'Error getting admin perms for organization home');
          }

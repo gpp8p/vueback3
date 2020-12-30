@@ -69,6 +69,7 @@ class Org extends Model
         }
     }
 
+
     public function getAvailableOrgUsers($groupId, $orgId){
         $query="select users.id, users.name, users.email from userorg, users ".
             "where users.id = userorg.user_id ".
@@ -79,6 +80,20 @@ class Org extends Model
         try {
             $orgUserList = DB::select($query,[$orgId, $groupId]);
             return $orgUserList;
+        } catch (\Exception $e) {
+            throw new Exception('error in orgUserList'.$e->getMessage());
+        }
+    }
+
+    public function getAvailableUsers($orgId){
+        $query = "select distinct users.name, users.email, users.id from users, userorg ".
+                  "where users.id not in ".
+                  "(select users.id from userorg, users ".
+                  "where users.id = userorg.user_id and userorg.org_id = ? ".
+                  ")";
+       try {
+            $availableUsers = DB::select($query,[$orgId]);
+            return $availableUsers;
         } catch (\Exception $e) {
             throw new Exception('error in orgUserList'.$e->getMessage());
         }

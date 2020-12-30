@@ -50,6 +50,7 @@ Route::group([
     Route::get('orgList', 'OrgController@getOrgList');
     Route::get('orgUsers', 'OrgController@getOrgUsers');
     Route::get('availableOrgUsers', 'OrgController@getAvailableOrgUsers');
+    Route::get('availableUsers', 'OrgController@getAvailableUsers');
     Route::get('orgLayouts', 'LayoutController@getOrgLayouts');
     Route::get('allUsers', 'OrgController@getAllUsers');
     Route::post('newOrg', 'OrgController@newOrg');
@@ -67,6 +68,7 @@ Route::group([
     Route::post('removeUserFromGroup', 'GroupsController@removeUserFromGroup');
     Route::get('userExists', 'UserController@checkUserExists');
     Route::get('userOrgPerms','OrgController@userOrgPerms' );
+    Route::post('addUserToOrg','userController@addUserToOrg' );
 
 
 });

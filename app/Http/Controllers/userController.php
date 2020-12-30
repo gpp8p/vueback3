@@ -185,4 +185,21 @@ class userController extends Controller
 
     }
 
+    public function addUserToOrg(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }
+        $inData = $request->all();
+        $orgId = $inData['orgId'];
+        $userId = $inData['userId'];
+        $thisOrg = new Org();
+        try {
+            $thisOrg->addUserToOrg($orgId, $userId);
+        } catch (\Exception $e) {
+            abort(500, 'Error adding user to org');
+        }
+        return "ok";
+
+    }
+
 }

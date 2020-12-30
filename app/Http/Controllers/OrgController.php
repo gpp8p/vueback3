@@ -94,6 +94,22 @@ class OrgController extends Controller
          return json_encode($allUsers);
 
      }
+
+     public function getAvailableUsers(Request $request){
+         if(auth()->user()==null){
+             abort(401, 'Unauthorized action.');
+         }else{
+             $userId = auth()->user()->id;
+         }
+         $inData = $request->all();
+         $orgId = $inData['orgId'];
+         $thisOrg = new Org();
+         $availableUsers = $thisOrg->getAvailableUsers($orgId);
+         return json_encode($availableUsers);
+
+     }
+
+
      public function userOrgPerms(Request $request){
          $inData = $request->all();
          $orgId = $inData['orgId'];

@@ -52,6 +52,11 @@ class Group extends Model
 
     }
 
+    public function removeUserFromGroups($userId, $groupList){
+        $query = "delete from usergroup where user_id = ? and usergroup.group_id in ".$groupList;
+        $queryResult = DB::select($query, [$userId]);
+    }
+
     public function addNewPersonalGroup($userName, $userEmail){
         $thisGroupId = DB::table('groups')->insertGetId([
             'group_label'=>$userEmail,
@@ -111,9 +116,14 @@ class Group extends Model
         $groups  =  DB::select($query, [$orgId, $orgId, $userId, $layoutId]);
         return $groups;
     }
+    public function allUserId(){
+        $query = "select id from groups where description='All users of system'";
+        $allUserGroupId  =  DB::select($query);
+        return $allUserGroupId[0]->id;
+    }
 
     public function findOrgGroups($orgId){
-        $query = "select distinct groups.id from groups, grouporg where groups.id in (select grouporg.group_id from grouporg where grouporg.id=?)  ";
+        $query = "select distinct groups.id from groups, grouporg where groups.id in (select grouporg.group_id from grouporg where grouporg.org_id=?)  ";
         $orgGroups = DB::select($query, [$orgId]);
         return $orgGroups;
     }

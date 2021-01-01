@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Group;
+use App\Org;
+use Illuminate\Support\Facades\DB;
 
 class GroupsController extends Controller
 {
@@ -83,10 +85,40 @@ class GroupsController extends Controller
         $orgId = $inData['orgId'];
         $userId = $inData['userId'];
         $groupInstance = new Group;
+        $orgInstance = new Org;
         try {
             $orgGroups = $groupInstance->findOrgGroups($orgId);
         } catch (\Exception $e) {
             abort(500, 'Error finding oprg groups: '.$e->getMessage());
+        }
+        $allUserGroup = $groupInstance->allUserId();
+        if(count($orgGroups)>0){
+            $orgGroupIds = "(";
+            foreach($orgGroups as $thisOrgGroup){
+                if($thisOrgGroup->id!=$allUserGroup){
+                    $orgGroupIds = $orgGroupIds.$thisOrgGroup->id.",";
+                }
+            }
+            $orgGroupIds = substr($orgGroupIds, 0, -1);
+            $orgGroupIds = $orgGroupIds.")";
+            try {
+                DB::beginTransaction();
+                $groupInstance->removeUserFromGroups($userId, $orgGroupIds);
+                $orgInstance->removeUserFromUserOrg($orgId, $userId);
+                DB::commit();
+                return "ok";
+            } catch (\Exception $e) {
+                DB::rollback();
+                abort(500, 'Error deleteing user from usergroups '.$e->getMessage());
+            }
+        }else{
+            try {
+                $orgInstance->removeUserFromUserOrg($orgId, $userId);
+                return "ok";
+            } catch (\Exception $e) {
+                abort(500, 'Error deleteing user from usergroups '.$e->getMessage());
+            }
+
         }
     }
 }

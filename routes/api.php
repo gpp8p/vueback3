@@ -69,6 +69,7 @@ Route::group([
     Route::get('userExists', 'UserController@checkUserExists');
     Route::get('userOrgPerms','OrgController@userOrgPerms' );
     Route::post('addUserToOrg','userController@addUserToOrg' );
+    Route::get('removeUserFromOrg', 'GroupsController@removeUserFromOrg');
 
 
 });

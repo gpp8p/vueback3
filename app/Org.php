@@ -120,4 +120,10 @@ class Org extends Model
         ]);
     }
 
+    public function removeUserFromUserOrg($orgId, $userId){
+        $query = "delete from userorg where org_id = ? and user_id = ?";
+        $queryResult = DB::select($query, [$orgId, $userId]);
+        return;
+    }
+
 }

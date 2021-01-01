@@ -74,4 +74,19 @@ class GroupsController extends Controller
             abort(500, 'Server error: '.$e->getMessage());
         }
     }
+
+    public function removeUserFromOrg(Request $request){
+        if(auth()->user()==null){
+            abort(401, 'Unauthorized action.');
+        }
+        $inData =  $request->all();
+        $orgId = $inData['orgId'];
+        $userId = $inData['userId'];
+        $groupInstance = new Group;
+        try {
+            $orgGroups = $groupInstance->findOrgGroups($orgId);
+        } catch (\Exception $e) {
+            abort(500, 'Error finding oprg groups: '.$e->getMessage());
+        }
+    }
 }

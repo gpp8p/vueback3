@@ -111,4 +111,10 @@ class Group extends Model
         $groups  =  DB::select($query, [$orgId, $orgId, $userId, $layoutId]);
         return $groups;
     }
+
+    public function findOrgGroups($orgId){
+        $query = "select distinct groups.id from groups, grouporg where groups.id in (select grouporg.group_id from grouporg where grouporg.id=?)  ";
+        $orgGroups = DB::select($query, [$orgId]);
+        return $orgGroups;
+    }
 }
